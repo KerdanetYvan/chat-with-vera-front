@@ -1,0 +1,64 @@
+:root {
+	--bg1: #f5f7fb;
+	--bg2: #e6eef9;
+	--accent: #0066cc;
+	--card-bg: #ffffff;
+	--muted: #6b7280;
+}
+
+.landing {
+	min-height: 80vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 3rem 1rem;
+	background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+}
+
+.card {
+	background: var(--card-bg);
+	border-radius: 12px;
+	padding: 2.5rem 2rem;
+	max-width: 720px;
+	width: 100%;
+	box-shadow: 0 10px 30px rgba(16,24,40,0.08);
+	text-align: center;
+}
+
+.logo {
+	font-size: 48px;
+	line-height: 1;
+	margin-bottom: 0.5rem;
+}
+
+.card h1 {
+	margin: 0;
+	font-size: 2rem;
+	color: #0f172a;
+}
+
+.status {
+	margin-top: 0.4rem;
+	color: var(--accent);
+	font-weight: 700;
+	font-size: 1.1rem;
+}
+
+.desc {
+	margin-top: 1rem;
+	color: var(--muted);
+	font-size: 1rem;
+}
+
+.meta {
+	margin-top: 1.25rem;
+	color: #94a3b8;
+	font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+	.card { padding: 1.5rem; }
+	.card h1 { font-size: 1.5rem; }
+	.logo { font-size: 42px; }
+}
+
