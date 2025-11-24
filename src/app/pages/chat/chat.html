@@ -1,1 +1,54 @@
-<p>chat works!</p>
+<div class="chat-container">
+
+  <!-- Liste des messages -->
+  <div class="messages">
+    @for (msg of messages; track $index) {
+      <div
+        class="message"
+        [class.user]="msg.role === 'user'"
+        [class.vera]="msg.role === 'vera'"
+      >
+        <div class="meta">
+          <span class="role">
+            {{ msg.role === 'user' ? 'Vous' : 'VERA' }}
+          </span>
+          <span class="time">
+            {{ msg.createdAt | date:'shortTime' }}
+          </span>
+        </div>
+        <p class="content">
+          {{ msg.content }}
+        </p>
+      </div>
+    }
+
+    <!-- État de chargement -->
+    @if(isLoading) {
+      <div class="message vera loading">
+        VERA réfléchit...
+      </div>
+    }
+  </div>
+
+  <!-- Formulaire d'envoi -->
+  <form class="input-area" (ngSubmit)="onSubmit()">
+    <textarea
+      [(ngModel)]="input"
+      name="question"
+      rows="2"
+      placeholder="Pose ta question à VERA..."
+    ></textarea>
+
+    <button type="submit" [disabled]="isLoading || !input.trim()">
+      Envoyer
+    </button>
+  </form>
+
+  <!-- Message d'erreur -->
+  @if(error) {
+    <p class="error">
+      {{ error }}
+    </p>
+  }
+
+</div>
