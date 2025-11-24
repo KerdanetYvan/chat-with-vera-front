@@ -117,21 +117,58 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* État de chargement */
-.message.loading {
-  align-self: flex-start;
-  font-style: italic;
-  color: #64748b;
-  animation: pulse 1.5s ease-in-out infinite;
+/* Indicateur de chargement */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.125rem;
+  margin-left: 0.5rem;
+  max-width: fit-content;
+  animation: fadeIn 0.3s ease-in;
 }
 
-@keyframes pulse {
-  0%, 100% {
+.loading-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0066cc;
+  animation: bounce 1.4s ease-in-out infinite;
+}
+
+.loading-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  30% {
+    transform: translateY(-10px);
     opacity: 1;
   }
-  50% {
-    opacity: 0.5;
-  }
+}
+
+.loading-text {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-style: italic;
 }
 
 /* ========== Zone de saisie ========== */
@@ -198,24 +235,7 @@ button[type="submit"]:disabled {
   opacity: 0.6;
 }
 
-/* ========== Message d'erreur ========== */
-.error {
-  margin: 0;
-  padding: 0.875rem 1.25rem;
-  background: #fef2f2;
-  color: #dc2626;
-  border-left: 4px solid #dc2626;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  margin: 0 1.5rem 1rem 1.5rem;
-  animation: shake 0.4s ease;
-}
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
 
 /* ========== Responsive ========== */
 @media (max-width: 768px) {

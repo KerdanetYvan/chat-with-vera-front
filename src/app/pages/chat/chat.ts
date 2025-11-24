@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { VeraApi } from '../../core/services/vera-api';
@@ -19,45 +19,67 @@ interface ChatMessage {
 })
 export class Chat {
   private veraApi = inject(VeraApi);
+  private cdr = inject(ChangeDetectorRef);
 
-  userId = "user-test-001"; // User de test
+  userId = 'user-test-001';
   messages: ChatMessage[] = [];
-  input = "";
+  input = '';
   isLoading = false;
-  error: string | null = null;
 
   onSubmit() {
     const question = this.input.trim();
     if (!question || this.isLoading) return;
 
-    // On reset l'erreur éventuelle + on vide le champ
-    this.error = null;
+    // reset champ
     this.input = '';
 
-    // On ajoute le message de l'utilisateur dans le chat
-    this.messages.push({
-      role: 'user',
-      content: question,
-      createdAt: new Date(),
-    });
+    // message user
+    this.messages = [
+      ...this.messages,
+      {
+        role: 'user',
+        content: question,
+        createdAt: new Date(),
+      },
+    ];
 
-    // On passe en "chargement"
+    // loader ON
     this.isLoading = true;
+    this.cdr.markForCheck(); // 🔥 force Angular à se réveiller
 
-    // On appelle ton service qui parle au back Nest
     this.veraApi.ask(question, this.userId).subscribe({
       next: (res) => {
-        // res.answer vient de ton backend
-        this.messages.push({
-          role: 'vera',
-          content: res.answer,
-          createdAt: new Date(),
-        });
+        // réponse OK (quand ton back marchera)
+        this.messages = [
+          ...this.messages,
+          {
+            role: 'vera',
+            content: res.answer,
+            createdAt: new Date(),
+          },
+        ];
         this.isLoading = false;
+        this.cdr.markForCheck(); // 🔥 re-rendu immédiat
       },
-      error: () => {
-        this.error = "Oups, VERA n'arrive pas à répondre pour le moment.";
+      error: (err) => {
+        console.error('Erreur VERA API:', err);
+
+        // 👉 on ajoute le message d’erreur dans le chat
+        this.messages = [
+          ...this.messages,
+          {
+            role: 'vera',
+            content:
+              "Oups, je n'arrive pas à répondre pour le moment. Réessaye dans quelques instants.",
+            createdAt: new Date(),
+          },
+        ];
+
+        // 👉 on coupe le loader
         this.isLoading = false;
+
+        // 👉 on force Angular à re-rendre la vue
+        this.cdr.markForCheck();
       },
     });
   }

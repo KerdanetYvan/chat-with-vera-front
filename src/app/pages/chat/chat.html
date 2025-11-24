@@ -22,10 +22,15 @@
       </div>
     }
 
-    <!-- État de chargement -->
+    <!-- Indicateur de chargement -->
     @if(isLoading) {
-      <div class="message vera loading">
-        VERA réfléchit...
+      <div class="loading-indicator">
+        <div class="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="loading-text">VERA réfléchit...</span>
       </div>
     }
   </div>
@@ -44,11 +49,7 @@
     </button>
   </form>
 
-  <!-- Message d'erreur -->
-  @if(error) {
-    <p class="error">
-      {{ error }}
-    </p>
-  }
-
 </div>
+<hr />
+<pre>isLoading: {{ isLoading }}</pre>
+<pre>messages: {{ messages | json }}</pre>
