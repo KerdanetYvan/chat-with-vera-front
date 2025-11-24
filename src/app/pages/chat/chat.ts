@@ -50,6 +50,7 @@ export class Chat {
     this.veraApi.ask(question, this.userId).subscribe({
       next: (res) => {
         // réponse OK (quand ton back marchera)
+        console.log('Réponse VERA API:', res);
         this.messages = [
           ...this.messages,
           {

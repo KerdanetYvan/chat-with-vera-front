@@ -1,4 +1,6 @@
 import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,12 +11,18 @@ export class AuthService {
 
   isLoggedIn = this._isLoggedIn.asReadonly();
 
-  constructor() {
+  private authUrl = `${environment.apiUrl}/auth`;
+
+  constructor(private http: HttpClient) {
     // Chargement du state seulement côté navigateur
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       const saved = localStorage.getItem('vera_auth') === 'true';
       this._isLoggedIn.set(saved);
     }
+  }
+
+  register(payload: { pseudo?: string; email: string; password: string }) {
+    return this.http.post(`${this.authUrl}/register`, payload);
   }
 
   login(username: string, password: string): boolean {
