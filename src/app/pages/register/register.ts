@@ -44,7 +44,7 @@ export class Register {
         // plus tard : redirection, message de succès, etc.
       },
       error: (err) => {
-        console.error('Erreur lors de l’inscription ❌', err);
+        console.error('Erreur lors de l\'inscription ❌', err);
         // plus tard : afficher un message d'erreur dans le template
       },
     });
