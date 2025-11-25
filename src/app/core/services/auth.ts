@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 type Session = {
   token: string;
   user: {
+    id: string;
     username: string;
     email: string;
     role: 'admin' | 'user';

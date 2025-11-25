@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { AuthService } from '../../core/services/auth';
 import { VeraApi } from '../../core/services/vera-api';
 
 interface ChatMessage {
@@ -18,10 +19,11 @@ interface ChatMessage {
   styleUrl: './chat.css',
 })
 export class Chat {
+  private auth = inject(AuthService);
   private veraApi = inject(VeraApi);
   private cdr = inject(ChangeDetectorRef);
 
-  userId = 'user-test-001';
+  userId = this.auth.session()?.user.id ?? 'invite';
   messages: ChatMessage[] = [];
   input = '';
   isLoading = false;
