@@ -12,7 +12,7 @@ import { AuthService } from '../../core/services/auth';
   styleUrls: ['./login.css'],
 })
 export class Login {
-  username = '';
+  email = '';
   password = '';
   error = '';
 
@@ -22,11 +22,20 @@ export class Login {
   ) {}
 
   onSubmit() {
-    const success = this.auth.login(this.username, this.password);
-    if (success) {
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.error = 'Identifiants invalides';
-    }
+    const payload = {
+      email: this.email,
+      password: this.password,
+    };
+
+    this.auth.login(payload).subscribe({
+      next: (res) => {
+        this.auth.setSession(res);
+
+        this.router.navigate([res.user.role === 'admin' ? '/dashboard' : '/chat']);
+      },
+      error: () => {
+        this.error = "Identifiants invalides.";
+      }
+    });
   }
 }
