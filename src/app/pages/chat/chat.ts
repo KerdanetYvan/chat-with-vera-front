@@ -23,6 +23,21 @@ export class Chat {
   private veraApi = inject(VeraApi);
   private cdr = inject(ChangeDetectorRef);
 
+  selectedFiles: File[] = [];
+  hasFiles = false;
+
+  onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      this.selectedFiles = [];
+      this.hasFiles = false;
+      return;
+    }
+
+    this.selectedFiles = Array.from(input.files);
+    this.hasFiles = this.selectedFiles.length > 0;
+  }
+
   userId = this.auth.session()?.user.id ?? 'invite';
   messages: ChatMessage[] = [];
   input = '';
@@ -30,7 +45,7 @@ export class Chat {
 
   onSubmit() {
     const question = this.input.trim();
-    if (!question || this.isLoading) return;
+    if ((!question && this.hasFiles) || this.isLoading) return;
 
     // reset champ
     this.input = '';
@@ -49,41 +64,51 @@ export class Chat {
     this.isLoading = true;
     this.cdr.markForCheck(); // 🔥 force Angular à se réveiller
 
-    this.veraApi.ask(question, this.userId).subscribe({
-      next: (res) => {
-        // réponse OK (quand ton back marchera)
-        console.log('Réponse VERA API:', res);
-        this.messages = [
-          ...this.messages,
-          {
-            role: 'vera',
-            content: res.answer,
-            createdAt: new Date(),
-          },
-        ];
-        this.isLoading = false;
-        this.cdr.markForCheck(); // 🔥 re-rendu immédiat
-      },
-      error: (err) => {
-        console.error('Erreur VERA API:', err);
+    this.veraApi
+      .ask(
+        question,
+        this.userId,
+        this.selectedFiles
+      )
+      .subscribe({
+        next: (res) => {
+          // réponse OK (quand ton back marchera)
+          console.log('Réponse VERA API:', res);
+          this.messages = [
+            ...this.messages,
+            {
+              role: 'vera',
+              content: res.answer,
+              createdAt: new Date(),
+            },
+          ];
 
-        // 👉 on ajoute le message d’erreur dans le chat
-        this.messages = [
-          ...this.messages,
-          {
-            role: 'vera',
-            content:
-              "Oups, je n'arrive pas à répondre pour le moment. Réessaye dans quelques instants.",
-            createdAt: new Date(),
-          },
-        ];
+          this.selectedFiles = [];
+          this.hasFiles = false;
 
-        // 👉 on coupe le loader
-        this.isLoading = false;
+          this.isLoading = false;
+          this.cdr.markForCheck(); // 🔥 re-rendu immédiat
+        },
+        error: (err) => {
+          console.error('Erreur VERA API:', err);
 
-        // 👉 on force Angular à re-rendre la vue
-        this.cdr.markForCheck();
-      },
+          // 👉 on ajoute le message d’erreur dans le chat
+          this.messages = [
+            ...this.messages,
+            {
+              role: 'vera',
+              content:
+                "Oups, je n'arrive pas à répondre pour le moment. Réessaye dans quelques instants.",
+              createdAt: new Date(),
+            },
+          ];
+
+          // 👉 on coupe le loader
+          this.isLoading = false;
+
+          // 👉 on force Angular à re-rendre la vue
+          this.cdr.markForCheck();
+        },
     });
   }
 }

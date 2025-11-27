@@ -35,6 +35,13 @@
     }
   </div>
 
+  @if (hasFiles) {
+    <p class="files-info">
+      {{ selectedFiles.length }} fichier(s) prêt(s) à être envoyé(s)
+    </p>
+  }
+
+
   <!-- Formulaire d'envoi -->
   <form class="input-area" (ngSubmit)="onSubmit()">
     <textarea
@@ -43,6 +50,15 @@
       rows="2"
       placeholder="Pose ta question à VERA..."
     ></textarea>
+
+    <label class="file-input">
+      <input
+        type="file"
+        multiple
+        (change)="onFilesSelected($event)"
+      />
+      <span>📎 Joindre des fichiers</span>
+    </label>
 
     <button type="submit" [disabled]="isLoading || !input.trim()">
       Envoyer
