@@ -78,7 +78,7 @@ export class Chat {
             ...this.messages,
             {
               role: 'vera',
-              content: res.answer,
+              content: (res as any).data ?? (res as any).answer ?? String(res),
               createdAt: new Date(),
             },
           ];
