@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AuthService } from '../../core/services/auth';
 import { VeraApi } from '../../core/services/vera-api';
+import { NavBar } from '../../components/nav-bar/nav-bar';
 
 interface ChatMessage {
   role: 'user' | 'vera';
@@ -14,7 +15,7 @@ interface ChatMessage {
 @Component({
   standalone: true,
   selector: 'app-chat',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavBar],
   templateUrl: './chat.html',
   styleUrl: './chat.css',
 })
