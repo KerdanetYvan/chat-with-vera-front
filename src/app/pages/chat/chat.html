@@ -1,38 +1,60 @@
-<div class="chat-container">
-  <app-nav-bar></app-nav-bar>
+<div class="chat-container dark pt-[62px] relative">
+  <img src="assets/bg-mobile.png" alt="" class="fixed inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  <app-nav-bar class="fixed top-0 left-0 w-full z-50"></app-nav-bar>
 
-  <!-- Liste des messages -->
-  <div class="messages">
-    @for (msg of messages; track $index) {
-      <div
-        class="message"
-        [class.user]="msg.role === 'user'"
-        [class.vera]="msg.role === 'vera'"
-      >
-        <div class="meta">
-          <span class="role">
-            {{ msg.role === 'user' ? 'Vous' : 'VERA' }}
-          </span>
-          <span class="time">
-            {{ msg.createdAt | date:'shortTime' }}
-          </span>
+  <div class="h-screen relative z-10">
+    @if (isListMessageEmpty()) {
+      <div class="welcome-message h-full pt-10">
+        <div class="flex flex-col items-center gap-10">
+          <h1 class="text-[32px]">Parlez à VERA</h1>
+          <div class="rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
+            <img ngSrc="assets/Vera.png" width="150" height="150" alt="VERA Logo" priority />
+          </div>
         </div>
-        <p class="content">
-          {{ msg.content }}
-        </p>
       </div>
     }
+    @if(!isListMessageEmpty()) {
+      <!-- Liste des messages -->
+      <div class="messages flex flex-col gap-4">
+        @for (turn of turns; track $index) {
 
-    <!-- Indicateur de chargement -->
-    @if(isLoading) {
-      <div class="loading-indicator">
-        <div class="loading-dots">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <span class="loading-text">VERA réfléchit...</span>
+          <div class="max-h-screen overflow-y-auto text-[#FEF2E4]">
+            <!-- Question user, sticky -->
+            <div class="sticky top-0 bg-[#FEF2E4] text-[#111110] py-[18px] border-b border-white/10 z-10">
+              <p class="text-[24px] text-center font-medium whitespace-pre-line">
+                {{ turn.question.content }}
+              </p>
+            </div>
+
+            <!-- Réponse VERA -->
+            @if (turn.answer) {
+              @if (turn.answer.content == "error") {
+                <div class="pt-[52px] space-y-2">
+                  <div class="m-auto mb-[50px] rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
+                    <img ngSrc="assets/Vera.png" width="65" height="65" alt="VERA Logo" priority />
+                  </div>
+                </div>
+              } @else {
+                <div class="pt-[52px] space-y-2">
+                  <div class="m-auto mb-[50px] rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
+                    <img ngSrc="assets/Vera.png" width="65" height="65" alt="VERA Logo" priority />
+                  </div>
+                  <p class="text-[20px]/[24px] text-[#111110] px-[33px] whitespace-pre-line">
+                    {{ turn.answer.content }}
+                  </p>
+                </div>
+              }
+            } @else {
+              <!-- éventuellement un petit "VERA réfléchit..." local à la carte -->
+              <div class="pt-3 text-xs text-white/40">
+                VERA réfléchit...
+              </div>
+            }
+          </div>
+
+        }
       </div>
+
     }
   </div>
 
@@ -43,30 +65,62 @@
   }
 
 
-  <!-- Formulaire d'envoi -->
-  <form class="input-area" (ngSubmit)="onSubmit()">
-    <textarea
-      [(ngModel)]="input"
-      name="question"
-      rows="2"
-      placeholder="Pose ta question à VERA..."
-    ></textarea>
+  <div class="fixed bottom-0 left-0 px-6 py-2 w-full z-20">
+    <form class="flex items-center justify-between bg-[#1F1C19] rounded-full px-4 py-2 gap-4">
+      <!-- Bloc upload avec menu -->
+      <div class="relative">
+        <!-- input file caché -->
+        <input
+          #fileInput
+          type="file"
+          multiple
+          (change)="onFilesSelected($event)"
+          class="hidden"
+        />
 
-    <label class="file-input">
-      <input
-        type="file"
-        multiple
-        (change)="onFilesSelected($event)"
-      />
-      <span>📎 Joindre des fichiers</span>
-    </label>
+        <!-- bouton + qui ouvre / ferme le menu -->
+        <button
+          type="button"
+          (click)="toggleUploadMenu()"
+          class="cursor-pointer hover:bg-slate-800 rounded-full p-1 flex items-center justify-center"
+        >
+          <ng-icon name="matPlusOutline" size="28px" color="#FEF2E4"></ng-icon>
+        </button>
 
-    <button type="submit" [disabled]="isLoading || !input.trim()">
-      Envoyer
-    </button>
-  </form>
+        <!-- menu déroulant -->
+        @if (isUploadMenuOpen) {
+          <div
+            class="absolute bottom-full left-0 mb-2 w-48 rounded-xl bg-[#1F1C19] border border-[#4a4642] shadow-lg py-2"
+          >
+            <button
+              type="button"
+              (click)="chooseFile()"
+              class="w-full text-left px-3 py-2 text-sm text-[#FEF2E4] hover:bg-[#2c2927] flex items-center gap-2"
+            >
+              <ng-icon name="matFileUploadOutline" size="20px" color="#FEF2E4"></ng-icon> Importer un fichier
+            </button>
+          </div>
+        }
+      </div>
 
+      <textarea
+        #textarea
+        [(ngModel)]="input"
+        (input)="autoResize(textarea)"
+        name="question"
+        rows="1"
+        placeholder="Pose ta question à VERA..."
+        class="w-3/4 placeholder:text-[#FEF2E4]/30 text-[#FEF2E4] text-md resize-none focus:outline-none overflow-y-auto"
+        style="max-height:calc(1.5rem * 3);"
+      ></textarea>
+
+      <button
+        class="cursor-pointer hover:bg-slate-800 rounded-full p-1 flex items-center justify-center"
+        type="submit"
+        (click)="onSubmit()"
+      >
+        <ng-icon name="matSendOutline" size="28px" color="#FEF2E4"></ng-icon>
+      </button>
+    </form>
+  </div>
 </div>
-<hr />
-<pre>isLoading: {{ isLoading }}</pre>
-<pre>messages: {{ messages | json }}</pre>

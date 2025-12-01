@@ -1,1 +1,130 @@
-<p>nav-bar works!</p>
+<nav class="bg-[#FEF2E4] relative shadow-sm dark">
+  <div class="h-[62px] max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+    <a href="#" class="flex items-center transition-opacity hover:opacity-80">
+      <img ngSrc="assets/logo_small.png" width="70.18" height="21.86" alt="Logo" priority>
+    </a>
+
+    <button
+      class="md:hidden lg:hidden w-10 h-10 flex items-center justify-center p-2 rounded-md hover:bg-black/5 transition-colors"
+      (click)="toggleMenu()"
+      aria-label="Menu"
+    >
+      <div class="relative w-6 h-[27px]">
+        <!-- Barre 1 -->
+        <span
+          class="absolute left-0 top-1 block h-0.5 w-6 bg-slate-800 rounded-sm transition-transform duration-300 origin-left"
+          [ngClass]="isMenuOpen ? 'rotate-45' : ''"
+        ></span>
+
+        <!-- Barre 2 -->
+        <span
+          class="absolute left-0 top-1/2 block h-0.5 w-6 bg-slate-800 rounded-sm transition-all duration-300 -translate-y-1/2"
+          [ngClass]="isMenuOpen ? 'opacity-0' : 'opacity-100'"
+        ></span>
+
+        <!-- Barre 3 -->
+        <span
+          class="absolute left-0 bottom-1 block h-0.5 w-6 bg-slate-800 rounded-sm transition-transform duration-300 origin-left"
+          [ngClass]="isMenuOpen ? '-rotate-45' : ''"
+        ></span>
+      </div>
+    </button>
+
+    <div class="hidden md:flex lg:flex items-center space-x-6">
+      <a
+        routerLink="/"
+        class="text-slate-800 no-underline text-[0.95rem] font-medium transition-opacity hover:opacity-80"
+      >C'est quoi VERA ?</a>
+      <a
+        routerLink="/chat"
+        class="block py-2 px-12 text-white bg-[#111110] rounded-full no-underline text-[0.95rem] font-medium transition-all border-l-[3px] border-transparent hover:bg-slate-50 hover:border-l-[#0066cc] hover:pl-7 active:bg-slate-100"
+        (click)="closeMenu()"
+      >Parler avec VERA</a>
+      <button
+        type="button"
+        (click)="toggleTheme()"
+        class="inline-flex items-center justify-center"
+        aria-label="Basculer le thème"
+      >
+        <div
+          class="relative w-16 h-8 rounded-full bg-[#33302f] flex items-center justify-between px-[11px] text-sm text-[#f7efe1] overflow-hidden"
+        >
+          <!-- Soleil (toujours même couleur en dessous) -->
+          <span>
+            <svg class="h-3 w-3 text-[#FEF2E4]" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+            </svg>
+          </span>
+
+          <!-- Lune (idem) -->
+          <span>
+            <svg class="h-3 w-3 text-[#FEF2E4]" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+            </svg>
+          </span>
+
+          <!-- Pastille qui inverse les couleurs sous elle -->
+          <span
+            class="absolute inset-y-1 left-1 w-7 rounded-full bg-[#FEF2E4] mix-blend-exclusion transition-transform duration-300"
+            [class.translate-x-full]="isDarkMode"
+          ></span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu déroulant -->
+  <div
+    class="absolute top-[62px] right-0 md:right-6 w-full md:w-[280px] bg-[#FEF2E4] md:rounded-bl-xl shadow-xl overflow-hidden transition-all duration-300 z-1000 flex flex-col items-center"
+    [class.max-h-0]="!isMenuOpen"
+    [class.opacity-0]="!isMenuOpen"
+    [class.pointer-events-none]="!isMenuOpen"
+    [class.max-h-96]="isMenuOpen"
+    [class.opacity-100]="isMenuOpen"
+  >
+    <a
+      routerLink="/"
+      class="block py-4 px-6 text-slate-800 no-underline text-[0.95rem] font-medium transition-all border-l-[3px] border-transparent hover:bg-slate-50 hover:border-l-[#0066cc] hover:pl-7 active:bg-slate-100"
+      (click)="closeMenu()"
+    >C'est quoi VERA ?</a>
+    <a
+      routerLink="/chat"
+      class="block py-2 px-12 text-white bg-[#111110] rounded-full no-underline text-[0.95rem] font-medium transition-all border-l-[3px] border-transparent hover:bg-slate-50 hover:border-l-[#0066cc] hover:pl-7 active:bg-slate-100"
+      (click)="closeMenu()"
+    >Parler avec VERA</a>
+
+    <!-- Theme Switcher -->
+    <div class="py-4 px-6 border-l-[3px] border-transparent hover:bg-slate-50">
+      <button
+        type="button"
+        (click)="toggleTheme()"
+        class="inline-flex items-center justify-center"
+        aria-label="Basculer le thème"
+      >
+        <div
+          class="relative w-16 h-8 rounded-full bg-[#33302f] flex items-center justify-between px-[11px] text-sm text-[#f7efe1] overflow-hidden"
+        >
+          <!-- Soleil (toujours même couleur en dessous) -->
+          <span>
+            <svg class="h-3 w-3 text-[#FEF2E4]" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+            </svg>
+          </span>
+
+          <!-- Lune (idem) -->
+          <span>
+            <svg class="h-3 w-3 text-[#FEF2E4]" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+            </svg>
+          </span>
+
+          <!-- Pastille qui inverse les couleurs sous elle -->
+          <span
+            class="absolute inset-y-1 left-1 w-7 rounded-full bg-[#FEF2E4] mix-blend-exclusion transition-transform duration-300"
+            [class.translate-x-full]="isDarkMode"
+          ></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</nav>
