@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NgOptimizedImage, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { ThemeService } from '../../core/services/theme.service';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-nav-bar',
   imports: [NgOptimizedImage, CommonModule, RouterModule],
@@ -10,6 +13,15 @@ import { RouterModule } from '@angular/router';
 })
 export class NavBar {
   isMenuOpen = false;
+  isDarkMode$: Observable<boolean>;
+
+  constructor(private theme: ThemeService) {
+    this.isDarkMode$ = this.theme.getDarkMode();
+  }
+
+  toggleTheme() {
+    this.theme.toggleTheme();
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

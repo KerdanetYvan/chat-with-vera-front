@@ -2,5 +2,17 @@
 
 @import "tailwindcss";
 
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+@variant dark (&:where(.dark, .dark *));
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

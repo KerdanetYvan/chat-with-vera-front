@@ -1,12 +1,18 @@
-<div class="chat-container pt-[62px] relative">
-  <img src="assets/bg-mobile.png" alt="" class="fixed inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+<div class="pt-[62px] relative">
+  @if (isDarkMode) {
+    <img src="assets/bg_mobile_dark.jpg" alt="" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop_dark.jpg" alt="" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  } @else {
+    <img src="assets/bg_mobile.png" alt="" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop.png" alt="" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  }
   <app-nav-bar class="fixed top-0 left-0 w-full z-50"></app-nav-bar>
 
   <div class="h-[calc(100vh-62px)] relative z-10">
     @if (isListMessageEmpty()) {
       <div class="welcome-message h-full pt-20">
         <div class="flex flex-col items-center gap-20">
-          <h1 class="text-[32px]">Parlez à VERA</h1>
+          <h1 class="text-[32px] dark:text-[#DBF9BE]">Parlez à VERA</h1>
           <div class="rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
             <img ngSrc="assets/Vera.png" width="200" height="200" alt="VERA Logo" priority />
           </div>
@@ -20,7 +26,7 @@
 
           <div class="text-[#FEF2E4]">
             <!-- Question user, sticky -->
-            <div class="sticky top-0 bg-[#FEF2E4] text-[#111110] py-[18px] border-b border-white/10 z-10">
+            <div class="sticky top-0 bg-[#FEF2E4] dark:bg-[#111110] text-[#111110] dark:text-[#FEF2E4] py-[18px] border-b border-white/10 w-full z-10">
               <p class="text-[24px] text-center font-medium whitespace-pre-line">
                 {{ turn.question.content }}
               </p>
@@ -29,20 +35,24 @@
             <!-- Réponse VERA -->
             @if (turn.answer) {
               @if (turn.answer.content == "error") {
-                <div class="pt-[52px] pb-8 space-y-2">
+                <div class="pt-[52px] md:max-w-[720px] lg:w-5xl mx-auto pb-8 space-y-2">
                   <div class="m-auto mb-[50px] h-fit w-fit overflow-hidden">
-                    <img ngSrc="assets/Socrate.png" width="250" height="250" alt="VERA Logo" priority />
+                    @if (isDarkMode) {
+                      <img ngSrc="assets/Socrate_light.png" width="250" height="250" alt="VERA Logo" priority />
+                    } @else {
+                      <img ngSrc="assets/Socrate.png" width="250" height="250" alt="VERA Logo" priority />
+                    }
                   </div>
-                  <p class="text-[20px]/[24px] text-[#111110] px-[33px] whitespace-pre-line">
+                  <p class="text-[20px]/[24px] text-[#111110] dark:text-[#FEF2E4] px-[33px] whitespace-pre-line">
                     Je n'ai trouvé aucune informations fiables à ce sujet.
                   </p>
                 </div>
               } @else {
-                <div class="pt-[52px] space-y-2">
+                <div class="pt-[52px] px-[18px] space-y-2 md:max-w-[720px] lg:w-5xl mx-auto">
                   <div class="m-auto mb-[50px] rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
                     <img ngSrc="assets/Vera.png" width="65" height="65" alt="VERA Logo" priority />
                   </div>
-                  <p class="text-[20px]/[24px] text-[#111110] px-[33px] whitespace-pre-line">
+                  <p class="text-[20px]/[24px] text-[#111110] dark:text-[#FEF2E4] dark:bg-[#1F1C19] px-[15px] rounded-md whitespace-pre-line">
                     {{ turn.answer.content }}
                   </p>
                 </div>
@@ -53,7 +63,7 @@
                   <div class="m-auto mb-[50px] rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
                     <img ngSrc="assets/Vera.png" width="65" height="65" alt="VERA Logo" priority />
                   </div>
-                  <p class="text-[20px]/[24px] text-[#111110] px-[33px] whitespace-pre-line flex items-center gap-2">
+                  <p class="text-[20px]/[24px] text-[#111110] dark:text-[#DBF9BE] px-[33px] whitespace-pre-line flex items-center gap-2">
                     <svg class="animate-spin h-5 w-5 text-[#0066cc]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -76,7 +86,7 @@
       <div class="max-h-40 overflow-y-auto space-y-2">
         @for (file of selectedFiles; track $index) {
           <div
-            class="bg-[#1F1C19]/90 backdrop-blur-sm border border-[#4a4642] rounded-xl px-3 py-2 flex items-center justify-between text-[#FEF2E4] gap-3"
+            class="bg-[#1F1C19]/90 backdrop-blur-sm border border-[#4a4642] rounded-xl px-3 py-2 flex items-center justify-between text-[#FEF2E4] gap-3 w-3/4 md:w-[250px]"
           >
             <div class="flex-1 min-w-0">
               <span class="block text-sm font-medium truncate">
@@ -100,8 +110,8 @@
     </div>
   }
 
-  <div class="fixed bottom-0 left-0 px-6 py-2 w-full z-20">
-    <form class="flex items-center justify-between bg-[#1F1C19] rounded-full px-4 py-2 gap-4">
+  <div class="fixed bottom-0 left-1/2 -translate-x-1/2 px-6 py-2 md:pb-8 sm:w-full md:w-[720px] lg:w-5xl z-20">
+    <form class="flex items-center justify-between bg-[#1F1C19] dark:bg-[#DBF9BE] rounded-full px-4 py-2 gap-4 w-full">
       <!-- Bloc upload avec menu -->
       <div class="relative">
         <!-- input file caché -->
@@ -119,7 +129,11 @@
           (click)="toggleUploadMenu()"
           class="cursor-pointer hover:bg-slate-800 rounded-full p-1 flex items-center justify-center"
         >
-          <ng-icon name="matPlusOutline" size="28px" color="#FEF2E4"></ng-icon>
+          @if (isDarkMode) {
+            <ng-icon name="matPlusOutline" size="28px" color="#111110"></ng-icon>
+          } @else {
+            <ng-icon name="matPlusOutline" size="28px" color="#FEF2E4"></ng-icon>
+          }
         </button>
 
         <!-- menu déroulant -->
@@ -145,7 +159,7 @@
         name="question"
         rows="1"
         placeholder="Pose ta question à VERA..."
-        class="w-3/4 placeholder:text-[#FEF2E4]/30 text-[#FEF2E4] text-md resize-none focus:outline-none overflow-y-auto"
+        class="w-3/4 placeholder:text-[#FEF2E4]/30 dark:placeholder:text-[#111110]/30 text-[#FEF2E4] dark:text-[#111110] text-md resize-none focus:outline-none overflow-y-auto"
         style="max-height:calc(1.5rem * 3);"
       ></textarea>
 
@@ -154,7 +168,11 @@
         type="submit"
         (click)="onSubmit()"
       >
-        <ng-icon name="matSendOutline" size="28px" color="#FEF2E4"></ng-icon>
+        @if (isDarkMode) {
+          <ng-icon name="matSendOutline" size="28px" color="#111110"></ng-icon>
+        } @else {
+          <ng-icon name="matSendOutline" size="28px" color="#FEF2E4"></ng-icon>
+        }
       </button>
     </form>
   </div>
