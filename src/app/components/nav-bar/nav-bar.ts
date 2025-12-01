@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 })
 export class NavBar {
   isMenuOpen = false;
-  isDarkMode = false;
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -18,11 +17,5 @@ export class NavBar {
 
   closeMenu() {
     this.isMenuOpen = false;
-  }
-
-  toggleTheme() {
-    this.isDarkMode = !this.isDarkMode;
-    // TODO: Implémenter la logique de changement de thème
-    document.documentElement.classList.toggle('dark', this.isDarkMode);
   }
 }

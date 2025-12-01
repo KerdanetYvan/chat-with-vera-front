@@ -3,6 +3,7 @@ import { Component, inject, ChangeDetectorRef, ViewChild, ElementRef } from '@an
 import { FormsModule } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matPlusOutline, matSendOutline, matFileUploadOutline } from '@ng-icons/material-icons/outline';
+import { ThemeService } from '../../core/services/theme.service';
 
 import { AuthService } from '../../core/services/auth';
 import { VeraApi } from '../../core/services/vera-api';
@@ -40,6 +41,20 @@ export class Chat {
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
+  isDarkMode = false;
+
+  constructor(private theme: ThemeService) {
+    // Initialiser immédiatement
+    this.isDarkMode = this.theme.currentValue;
+
+    // S'abonner aux changements
+    this.theme.getDarkMode().subscribe(value => {
+      this.isDarkMode = value;
+    });
+  }  ngOnInit() {
+    // Autre logique d'initialisation si nécessaire
+  }
+
   selectedFiles: File[] = [];
   hasFiles = false;
 
@@ -54,9 +69,19 @@ export class Chat {
       return;
     }
 
-    this.selectedFiles = Array.from(input.files);
+    const newFiles = Array.from(input.files);
+
+    this.selectedFiles = [...this.selectedFiles, ...newFiles];
     this.hasFiles = this.selectedFiles.length > 0;
   }
+
+  removeFile(index: number) {
+    this.selectedFiles.splice(index, 1);
+    // on recrée le tableau pour que le changement soit bien détecté
+    this.selectedFiles = [...this.selectedFiles];
+    this.hasFiles = this.selectedFiles.length > 0;
+  }
+
 
   // on n’utilise plus querySelector, on passe par le ViewChild
   triggerFileInput() {
