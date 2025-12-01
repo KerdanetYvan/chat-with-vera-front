@@ -1,9 +1,11 @@
-<div class="landing">
-	<div class="card">
-		<div class="logo">🔧</div>
-		<h1>Vera Web</h1>
-		<p class="status">En construction</p>
-		<p class="desc">Nous travaillons activement pour améliorer l'application. Revenez bientôt !</p>
-		<div class="meta">Si vous avez besoin d'aide, contactez l'administrateur.</div>
-	</div>
+<div class="pt-[62px] relative">
+  @if (isDarkMode) {
+    <img src="assets/bg_mobile_dark.jpg" alt="" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop_dark.jpg" alt="" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  } @else {
+    <img src="assets/bg_mobile.png" alt="" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop.png" alt="" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  }
+  <app-nav-bar class="fixed top-0 left-0 w-full z-50"></app-nav-bar>
+
 </div>
