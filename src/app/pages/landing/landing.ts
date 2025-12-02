@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ThemeService } from '../../core/services/theme.service';
 
@@ -6,7 +7,7 @@ import { NavBar } from '../../components/nav-bar/nav-bar';
 @Component({
   standalone: true,
   selector: 'app-landing',
-  imports: [NavBar],
+  imports: [NavBar, CommonModule],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })
