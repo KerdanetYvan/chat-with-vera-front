@@ -111,9 +111,9 @@
   }
 
   <div class="fixed bottom-0 left-1/2 -translate-x-1/2 px-6 py-2 md:pb-8 sm:w-full md:w-[720px] lg:w-5xl z-20">
-    <form class="flex items-center justify-between bg-[#1F1C19] dark:bg-[#DBF9BE] rounded-full px-4 py-2 gap-4 w-full">
+    <form class="flex items-center bg-[#1F1C19] dark:bg-[#DBF9BE] rounded-full px-4 py-2 gap-4 w-full">
       <!-- Bloc upload avec menu -->
-      <div class="relative">
+      <div class="relative shrink-0">
         <!-- input file caché -->
         <input
           #fileInput
@@ -159,12 +159,12 @@
         name="question"
         rows="1"
         placeholder="Pose ta question à VERA..."
-        class="w-3/4 placeholder:text-[#FEF2E4]/30 dark:placeholder:text-[#111110]/30 text-[#FEF2E4] dark:text-[#111110] text-md resize-none focus:outline-none overflow-y-auto"
+        class="flex-1 placeholder:text-[#FEF2E4]/30 dark:placeholder:text-[#111110]/30 text-[#FEF2E4] dark:text-[#111110] text-md resize-none focus:outline-none overflow-y-auto"
         style="max-height:calc(1.5rem * 3);"
       ></textarea>
 
       <button
-        class="cursor-pointer hover:bg-slate-800 rounded-full p-1 flex items-center justify-center"
+        class="cursor-pointer hover:bg-slate-800 rounded-full p-1 flex items-center justify-center shrink-0"
         type="submit"
         (click)="onSubmit()"
       >
