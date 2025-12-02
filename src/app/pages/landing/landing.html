@@ -202,37 +202,39 @@
     </div>
 
     <div class="rounded-t-xl bg-[#DBF9BE] dark:bg-[#1F1C19] dark:text-[#ffffff] px-[17px] py-[29px] lg:w-full lg:px-[62px]">
-      <div class="flex flex-col gap-5 mb-10">
-        <a href="/" class="flex items-center transition-opacity hover:opacity-80">
-          @if (isDarkMode) {
-            <img src="assets/logo_small_green.png" width="70.18" height="21.86" alt="Logo" priority>
-          } @else {
-            <img src="assets/logo_small.png" width="70.18" height="21.86" alt="Logo" priority>
-          }
-        </a>
+      <div class="max-w-[1400px] mx-auto">
+        <div class="flex flex-col gap-5 mb-10">
+          <a href="/" class="flex items-center transition-opacity hover:opacity-80">
+            @if (isDarkMode) {
+              <img src="assets/logo_small_green.png" width="70.18" height="21.86" alt="Logo" priority>
+            } @else {
+              <img src="assets/logo_small.png" width="70.18" height="21.86" alt="Logo" priority>
+            }
+          </a>
 
-        <p class="text-[16px]/[24px]">VERA vérifie toute information, fournissant des sources fiables à travers des conversations par téléphone ou WhatsApp - sans besoin d'application ni de site web.</p>
+          <p class="text-[16px]/[24px]">VERA vérifie toute information, fournissant des sources fiables à travers des conversations par téléphone ou WhatsApp - sans besoin d'application ni de site web.</p>
+        </div>
+
+        <nav class="flex flex-col gap-5 text-[16px]/[24px] mb-10">
+          <a href="/">
+            Comment ça marche ?
+          </a>
+
+          <a href="/chat">
+            Parler avec VERA
+          </a>
+
+          <a href="/privacy-policy">
+            Politique de confidentialité
+          </a>
+
+          <a href="/terms-of-service">
+            Conditions d'utilisation
+          </a>
+        </nav>
+
+        <p class="text-[16px]/[24px]">&copy; 2025 VERA ▪ Tous droits réservés</p>
       </div>
-
-      <nav class="flex flex-col gap-5 text-[16px]/[24px] mb-10">
-        <a href="/">
-          Comment ça marche ?
-        </a>
-
-        <a href="/chat">
-          Parler avec VERA
-        </a>
-
-        <a href="/privacy-policy">
-          Politique de confidentialité
-        </a>
-
-        <a href="/terms-of-service">
-          Conditions d'utilisation
-        </a>
-      </nav>
-
-      <p class="text-[16px]/[24px]">&copy; 2025 VERA ▪ Tous droits réservés</p>
     </div>
   </div>
 </div>
