@@ -25,9 +25,10 @@
               {
                 "glob": "**/*",
                 "input": "public",
-                "output": "/assets"
+                "output": "/"
               }
             ],
+            "serviceWorker": "ngsw-config.json",
             "styles": [
               "src/custom-theme.scss",
               "src/styles.css"
