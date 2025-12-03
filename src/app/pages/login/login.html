@@ -1,21 +1,110 @@
-<section class="login">
-  <h2>Connexion VERA</h2>
-
-  <form (ngSubmit)="onSubmit()">
-    <label>
-      Identifiant
-      <input [(ngModel)]="email" name="email" required />
-    </label>
-
-    <label>
-      Mot de passe
-      <input [(ngModel)]="password" name="password" type="password" required />
-    </label>
-
-    <button type="submit">Se connecter</button>
-  </form>
-
-  @if (error) {
-    <p class="error">{{ error }}</p>
+<div class="pt-[62px] relative min-h-screen">
+  <!-- Images de fond -->
+  @if (isDarkMode) {
+    <img src="assets/bg_mobile_dark.jpg" alt="" role="presentation" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop_dark.jpg" alt="" role="presentation" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  } @else {
+    <img src="assets/bg_mobile.png" alt="" role="presentation" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop.png" alt="" role="presentation" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
   }
-</section>
+  
+  <app-nav-bar class="fixed top-0 left-0 w-full z-50" role="banner"></app-nav-bar>
+
+  <!-- Contenu principal -->
+  <main class="relative z-10 flex items-center justify-center min-h-[calc(100vh-62px)] px-6 py-12" role="main">
+    <div class="w-full max-w-md">
+      <!-- Carte de connexion -->
+      <div class="bg-[#FEF2E4] dark:bg-[#1F1C19] rounded-[20px] shadow-xl p-8 md:p-10">
+        <!-- Logo VERA -->
+        <div class="flex justify-center mb-8">
+          <div class="rounded-full bg-[#1F1C19] dark:bg-[#DBF9BE] h-fit w-fit overflow-hidden p-4">
+            <img src="assets/Vera.png" width="80" height="80" alt="Logo VERA" />
+          </div>
+        </div>
+
+        <!-- Titre -->
+        <h1 class="text-[32px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] text-center mb-8">
+          Connexion à VERA
+        </h1>
+
+        <!-- Formulaire -->
+        <form (ngSubmit)="onSubmit()" class="space-y-6" role="form" aria-label="Formulaire de connexion">
+          <!-- Champ Email -->
+          <div>
+            <label 
+              for="email" 
+              class="block text-[16px] font-family-fustat font-medium text-[#111110] dark:text-[#FEF2E4] mb-2"
+            >
+              Identifiant
+            </label>
+            <input
+              id="email"
+              type="email"
+              [(ngModel)]="email"
+              name="email"
+              required
+              autocomplete="email"
+              class="w-full px-4 py-3 rounded-lg bg-white dark:bg-[#111110] border-2 border-[#111110]/10 dark:border-[#DBF9BE]/20 text-[#111110] dark:text-[#FEF2E4] font-family-fustat text-[16px] focus:outline-none focus:ring-2 focus:ring-[#DBF9BE] focus:border-transparent transition-all"
+              placeholder="votre@email.com"
+              aria-required="true"
+            />
+          </div>
+
+          <!-- Champ Mot de passe -->
+          <div>
+            <label 
+              for="password" 
+              class="block text-[16px] font-family-fustat font-medium text-[#111110] dark:text-[#FEF2E4] mb-2"
+            >
+              Mot de passe
+            </label>
+            <input
+              id="password"
+              type="password"
+              [(ngModel)]="password"
+              name="password"
+              required
+              autocomplete="current-password"
+              class="w-full px-4 py-3 rounded-lg bg-white dark:bg-[#111110] border-2 border-[#111110]/10 dark:border-[#DBF9BE]/20 text-[#111110] dark:text-[#FEF2E4] font-family-fustat text-[16px] focus:outline-none focus:ring-2 focus:ring-[#DBF9BE] focus:border-transparent transition-all"
+              placeholder="••••••••"
+              aria-required="true"
+            />
+          </div>
+
+          <!-- Message d'erreur -->
+          @if (error) {
+            <div 
+              class="bg-red-50 dark:bg-red-900/20 border-2 border-red-400 dark:border-red-500 rounded-lg p-4" 
+              role="alert" 
+              aria-live="assertive"
+            >
+              <p class="text-red-700 dark:text-red-400 text-[14px] font-family-fustat">
+                {{ error }}
+              </p>
+            </div>
+          }
+
+          <!-- Bouton de connexion -->
+          <button
+            type="submit"
+            class="w-full py-3 px-6 bg-[#111110] dark:bg-[#DBF9BE] text-[#FEF2E4] dark:text-[#111110] rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-[#DBF9BE] focus:ring-offset-2 focus:ring-offset-[#FEF2E4] dark:focus:ring-offset-[#1F1C19]"
+            aria-label="Se connecter à VERA"
+          >
+            Se connecter
+          </button>
+        </form>
+
+        <!-- Lien de retour -->
+        <div class="mt-6 text-center">
+          <a 
+            href="/" 
+            class="text-[14px] font-family-fustat text-[#111110] dark:text-[#DBF9BE] hover:underline focus:outline-none focus:ring-2 focus:ring-[#DBF9BE] rounded px-2 py-1"
+            aria-label="Retour à l'accueil"
+          >
+            ← Retour à l'accueil
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
