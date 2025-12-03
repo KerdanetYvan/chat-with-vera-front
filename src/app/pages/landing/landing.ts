@@ -1,6 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, inject, signal, PLATFORM_ID } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
 import { PwaService } from '../../core/services/pwa.service';
 
@@ -10,7 +10,7 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   standalone: true,
   selector: 'app-landing',
-  imports: [NavBar, CommonModule],
+  imports: [NavBar, CommonModule, RouterLink],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })
