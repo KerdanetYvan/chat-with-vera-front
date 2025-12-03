@@ -45,15 +45,14 @@ export class AuthService {
   }
 
   getUserId(): string | null {
-  const token = this.getToken();
-  if (!token) return null;
+    const token = this.getToken();
+    if (!token) return null;
 
-  try {
-    const payload = jwtDecode<JwtPayload>(token);
-    return payload.sub || null;
-  } catch {
-    return null;
+    try {
+      const payload = jwtDecode<JwtPayload>(token);
+      return payload.sub || null;
+    } catch {
+      return null;
+    }
   }
-}
-
 }
