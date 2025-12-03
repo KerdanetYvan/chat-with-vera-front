@@ -241,4 +241,40 @@
       </div>
     </div>
   </div>
+  <!-- NOTIF INSTALLATION PWA -->
+   @if (showNotif()) {
+     <div
+       class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50
+             bg-[#111]/90 backdrop-blur-md border border-white/10
+             text-white rounded-full px-4 py-2 flex items-center gap-3
+             max-w-[95%] shadow-lg"
+     >
+
+        <!-- TEXTE -->
+        <p class="md:hidden lg:hidden text-sm text-[#fff] whitespace-nowrap overflow-hidden text-ellipsis">
+          Installer ChatWithVera
+        </p>
+        <p class="hidden md:block lg:block text-md text-[#fff] whitespace-nowrap overflow-hidden text-ellipsis">
+          Installer ChatWithVera sur votre bureau
+        </p>
+
+       <!-- BOUTON INSTALL -->
+       <button
+         class="bg-[#C3E4A1] text-black text-xs md:text-md lg:text-md font-semibold
+               px-3 py-1 rounded-full shrink-0"
+         (click)="onClickInstallNotif()"
+       >
+         Installer
+       </button>
+
+       <!-- CROIX FERMETURE -->
+       <button
+         class="text-[#fff]/70 hover:text-[#fff] text-lg leading-none px-1"
+         (click)="closeNotif()"
+         aria-label="Fermer la notification"
+       >
+         ✕
+       </button>
+     </div>
+   }
 </div>
