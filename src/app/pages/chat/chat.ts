@@ -12,6 +12,7 @@ import { NavBar } from '../../components/nav-bar/nav-bar';
 interface ChatMessage {
   role: 'user' | 'vera';
   content: string;
+  links?: string[];
   createdAt: Date;
 }
 
@@ -114,6 +115,38 @@ export class Chat {
 
   isListMessageEmpty = () => this.turns.length === 0;
 
+  extractUrls(text: string): string[] {
+    if (!text) return [];
+
+    const urlRegex = /https?:\/\/[^\s)]+/g;
+
+    const matches = text.match(urlRegex);
+
+    if (!matches) return [];
+
+    // nettoyage léger (supprime les virgules, points, parenthèses)
+    return matches.map(url =>
+      url.replace(/[.,);"]+$/, "")
+    );
+  }
+
+  getFavicon(url: string): string {
+    try {
+      const parsedUrl = new URL(url);
+      return `${parsedUrl.protocol}//${parsedUrl.hostname}/favicon.ico`;
+    } catch {
+      return '';
+    }
+  }
+
+  isLinks(msg: ChatMessage): boolean {
+    return msg.links !== undefined && msg.links.length > 0;
+  }
+
+  isMultipleLinks(msg: ChatMessage): boolean {
+    return msg.links !== undefined && msg.links.length > 1;
+  }
+
   onSubmit() {
     const question = this.input.trim();
 
@@ -154,6 +187,7 @@ export class Chat {
               (res as any).data ??
               (res as any).answer ??
               String(res),
+            links: this.extractUrls((res as any).data ?? (res as any).answer ?? String(res)),
             createdAt: new Date(),
           };
 

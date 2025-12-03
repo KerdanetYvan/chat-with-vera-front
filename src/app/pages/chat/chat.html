@@ -52,6 +52,21 @@
                   <div class="m-auto mb-[50px] rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
                     <img ngSrc="assets/Vera.png" width="65" height="65" alt="VERA Logo" priority />
                   </div>
+                  @if (isLinks(turn.answer)) {
+                    <div class="">
+                      @if (isMultipleLinks(turn.answer)) {
+                        @for (link of turn.answer.links; track $index) {
+                          <div>
+                            <p>Lire des enquêtes publiée par</p>
+                          </div>
+                        }
+                      } @else {
+                        <div>
+                          <p>Lire une enquête publiée par</p>
+                        </div>
+                      }
+                    </div>
+                  }
                   <p class="text-[20px]/[24px] text-[#111110] dark:text-[#FEF2E4] dark:bg-[#1F1C19] px-[15px] rounded-md whitespace-pre-line">
                     {{ turn.answer.content }}
                   </p>
