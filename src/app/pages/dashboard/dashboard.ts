@@ -7,6 +7,7 @@ import { DashboardApiService, DashboardOverview } from '../dashboard/services/da
   standalone: true,
   imports: [CommonModule, DatePipe],   // ⬅ NgIf, NgFor, date pipe
   templateUrl: './dashboard.html',
+  styleUrl : './dashboard.css'
 })
 export class Dashboard {
   overview?: DashboardOverview;

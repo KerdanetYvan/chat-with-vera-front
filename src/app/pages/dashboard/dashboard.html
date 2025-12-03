@@ -2,29 +2,30 @@
 <div *ngIf="error">{{ error }}</div>
 
 <div *ngIf="overview as o">
-  <!-- Exemple : cartes simples -->
-  <div class="cards">
+  <div class="stats-cards">
     <div class="card">
       <h3>Utilisateurs</h3>
-      <p>{{ o.stats.totalUsers }}</p>
+      <p>{{ o.stats?.totalUsers ?? 0 }}</p>
     </div>
 
     <div class="card">
       <h3>Sondages</h3>
-      <p>{{ o.stats.totalSurveys }}</p>
+      <p>{{ o.stats?.totalSurveys ?? 0 }}</p>
     </div>
 
     <div class="card">
       <h3>Réponses</h3>
-      <p>{{ o.stats.totalResponses }}</p>
+      <p>{{ o.stats?.totalResponses ?? 0 }}</p>
     </div>
   </div>
 
-  <!-- Exemple : liste des sondages récents -->
   <h3>Sondages récents</h3>
-  <ul>
+  <ul *ngIf="o.surveys?.recent?.length; else noSurveys">
     <li *ngFor="let s of o.surveys.recent">
       {{ s.title }} – {{ s.createdAt | date:'shortDate' }}
     </li>
   </ul>
+  <ng-template #noSurveys>
+    <p>Aucun sondage pour le moment.</p>
+  </ng-template>
 </div>
