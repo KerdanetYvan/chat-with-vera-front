@@ -5,7 +5,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matPlusOutline, matSendOutline, matFileUploadOutline } from '@ng-icons/material-icons/outline';
 import { ThemeService } from '../../core/services/theme.service';
 
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 import { VeraApi } from '../../core/services/vera-api';
 import { NavBar } from '../../components/nav-bar/nav-bar';
 
@@ -106,7 +106,7 @@ export class Chat {
     textarea.style.height = `${textarea.scrollHeight}px`;
   }
 
-  userId = this.auth.session()?.user.id ?? 'invite';
+  userId = this.auth.getUserId() ?? 'invite';
   messages: ChatMessage[] = [];
   turns: ChatTurn[] = [];
   input = '';

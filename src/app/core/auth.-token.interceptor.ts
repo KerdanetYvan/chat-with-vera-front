@@ -1,3 +1,4 @@
+// src/app/auth-token.interceptor.ts
 import { Injectable } from '@angular/core';
 import {
   HttpInterceptor,
@@ -6,7 +7,7 @@ import {
   HttpEvent,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './core/services/auth.service';
+import { AuthService } from './services/auth.service';
 
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
@@ -14,10 +15,13 @@ export class AuthTokenInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.auth.getToken();
+
+    // Si pas de token, on laisse passer la requête telle quelle
     if (!token) {
       return next.handle(req);
     }
 
+    // Clone de la requête avec le header Authorization ajouté
     const authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,

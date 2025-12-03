@@ -5,10 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 // Module HTTP Angular → permet d'utiliser HttpClient dans toute l'app
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-
-
-import { AuthTokenInterceptor } from './auth-token.interceptor'; // chemin à adapter
+import { AuthTokenInterceptor } from './auth-token.interceptor';
 
 @NgModule({
   declarations: [

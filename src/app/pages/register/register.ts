@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-
-
+import { AuthService } from '../../core/services/auth.service';
+import { AuthHttpService, RegisterPayload, LoginPayload, LoginResponse } from '../../core/services/auth-http.service';
 
 @Component({
   selector: 'app-register',
@@ -17,13 +16,17 @@ export class Register {
   registerForm!: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router,) {
+  constructor(
+    private fb: FormBuilder,
+    private authHttp: AuthHttpService,
+    private auth: AuthService,
+    private router: Router,
+  ) {
     this.registerForm = this.fb.group({
       username: [''],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
-
   }
 
   get f() {
@@ -34,42 +37,35 @@ export class Register {
     this.submitted = true;
 
     if (this.registerForm.invalid) {
-      console.log("Formulaire invalide");
+      console.log('Formulaire invalide');
       return;
     }
 
-    const payload = this.registerForm.value as {
-      username?: string;
-      email: string;
-      password: string;
-    };
+    const payload = this.registerForm.value as RegisterPayload;
     console.log('Payload prêt à être envoyé :', payload);
 
-    this.auth.register(payload).subscribe({
-      next: (res) => {
+    this.authHttp.register(payload).subscribe({
+      next: (res: any) => {
         console.log('Inscription réussie ✅', res);
 
-        // Auto-login :
-        const loginPayload = {
+        const loginPayload: LoginPayload = {
           email: payload.email,
           password: payload.password,
         };
 
-        this.auth.login(loginPayload).subscribe({
-          next: (loginRes) => {
-            this.auth.setSession(loginRes);
+        this.authHttp.login(loginPayload).subscribe({
+          next: (loginRes: LoginResponse) => {
+            this.auth.setToken(loginRes.access_token); // on stocke le JWT
             console.log('Connexion automatique réussie après inscription ✅', loginRes);
-            this.router.navigate([loginRes.user.role === 'admin' ? '/dashboard' : '/chat']);
+            this.router.navigate(['/dashboard']); // ou '/chat' selon ton besoin
           },
-          error: (err) => {
+          error: (err: unknown) => {
             console.error('Erreur lors de la connexion automatique ❌', err);
-            // plus tard : afficher un message d'erreur dans le template
           },
         });
       },
-      error: (err) => {
-        console.error('Erreur lors de l\'inscription ❌', err);
-        // plus tard : afficher un message d'erreur dans le template
+      error: (err: unknown) => {
+        console.error("Erreur lors de l'inscription ❌", err);
       },
     });
   }
