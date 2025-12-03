@@ -115,7 +115,7 @@
   </main>
 
   @if (hasFiles) {
-    <aside class="fixed bottom-[70px] right-0 w-3/4 px-6 z-20" role="complementary" aria-label="Fichiers sélectionnés">
+    <aside class="fixed bottom-[70px] lg:bottom-[90px] right-0 w-3/4 px-6 z-20" role="complementary" aria-label="Fichiers sélectionnés">
       <!-- Conteneur scrollable si beaucoup de fichiers -->
       <div class="max-h-40 overflow-y-auto space-y-2" role="list">
         @for (file of selectedFiles; track $index) {

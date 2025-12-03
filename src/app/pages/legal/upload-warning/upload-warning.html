@@ -4,7 +4,7 @@
 
   <main class="relative z-10 px-6 py-12 max-w-4xl mx-auto">
     <section aria-labelledby="chatbot-warning-title" class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-8 shadow-lg">
-      <h1 id="chatbot-warning-title" class="text-[38px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-6">⚠️ Informations importantes avant d'utiliser le chatbot</h1>
+      <h1 id="chatbot-warning-title" class="text-[38px]/[38px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-6">⚠️ Informations importantes avant d'utiliser le chatbot</h1>
 
       <div class="space-y-6 text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
         <p>
@@ -79,7 +79,7 @@
       </div>
 
       <div class="mt-8 flex gap-4 flex-wrap">
-        <a href="/chat" class="inline-block py-3 px-8 bg-[#111110] dark:bg-[#DBF9BE] text-[#FEF2E4] dark:text-[#111110] rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80">J'ai compris, accéder au chat</a>
+        <button (click)="acceptAndNavigate()" class="inline-block py-3 px-8 bg-[#111110] dark:bg-[#DBF9BE] text-[#FEF2E4] dark:text-[#111110] rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80 cursor-pointer">J'ai compris, accéder au chat</button>
         <a href="/" class="inline-block py-3 px-8 border-2 border-[#111110] dark:border-[#DBF9BE] text-[#111110] dark:text-[#DBF9BE] rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80">Retour à l'accueil</a>
       </div>
     </section>
