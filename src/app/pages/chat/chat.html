@@ -1,32 +1,32 @@
 <div class="pt-[62px] relative">
   @if (isDarkMode) {
-    <img src="assets/bg_mobile_dark.jpg" alt="" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
-    <img src="assets/bg_desktop_dark.jpg" alt="" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_mobile_dark.jpg" alt="" role="background" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop_dark.jpg" alt="" role="background" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
   } @else {
-    <img src="assets/bg_mobile.png" alt="" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
-    <img src="assets/bg_desktop.png" alt="" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_mobile.png" alt="" role="background" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop.png" alt="" role="background" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
   }
-  <app-nav-bar class="fixed top-0 left-0 w-full z-50"></app-nav-bar>
+  <app-nav-bar class="fixed top-0 left-0 w-full z-50" role="banner"></app-nav-bar>
 
-  <div class="h-[calc(100vh-62px)] relative z-10">
+  <main class="h-[calc(100vh-62px)] relative z-10" role="main" aria-label="Conversation avec VERA">
     @if (isListMessageEmpty()) {
-      <div class="welcome-message h-full pt-20">
+      <div class="welcome-message h-full pt-20" role="region" aria-label="Message de bienvenue">
         <div class="flex flex-col items-center gap-20">
           <h1 class="text-[32px] dark:text-[#DBF9BE] font-family-lastik">Parlez à Vera</h1>
           <div class="rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
-            <img ngSrc="assets/Vera.png" width="200" height="200" alt="VERA Logo" priority />
+            <img ngSrc="assets/Vera.png" width="200" height="200" alt="Logo de VERA, assistant virtuel" priority />
           </div>
         </div>
       </div>
     }
     @if(!isListMessageEmpty()) {
       <!-- Liste des messages -->
-      <div class="max-h-[calc(100vh-62px)] flex flex-col gap-4 pb-[100px] overflow-y-auto">
+      <div class="max-h-[calc(100vh-62px)] flex flex-col gap-4 pb-[100px] overflow-y-auto" role="log" aria-live="polite" aria-label="Historique de conversation">
         @for (turn of turns; track $index) {
 
-          <div class="text-[#FEF2E4]">
+          <article class="text-[#FEF2E4]" aria-label="Échange {{$index + 1}}">
             <!-- Question user, sticky -->
-            <div class="sticky top-0 bg-[#FEF2E4] dark:bg-[#111110] text-[#111110] dark:text-[#FEF2E4] py-[18px] w-full z-10">
+            <div class="sticky top-0 bg-[#FEF2E4] dark:bg-[#111110] text-[#111110] dark:text-[#FEF2E4] py-[18px] w-full z-10" role="region" aria-label="Question de l'utilisateur">
               <p class="text-[24px] text-center font-medium whitespace-pre-line font-family-lastik">
                 {{ turn.question.content }}
               </p>
@@ -35,12 +35,12 @@
             <!-- Réponse VERA -->
             @if (turn.answer) {
               @if (turn.answer.content == "error") {
-                <div class="pt-[52px] md:max-w-[720px] lg:w-5xl mx-auto pb-8 space-y-2">
+                <div class="pt-[52px] md:max-w-[720px] lg:w-5xl mx-auto pb-8 space-y-2" role="alert" aria-live="assertive">
                   <div class="m-auto mb-[50px] h-fit w-fit overflow-hidden">
                     @if (isDarkMode) {
-                      <img ngSrc="assets/Socrate_light.png" width="250" height="250" alt="VERA Logo" priority />
+                      <img ngSrc="assets/Socrate_light.png" width="250" height="250" alt="Socrate, représentant une erreur" priority />
                     } @else {
-                      <img ngSrc="assets/Socrate.png" width="250" height="250" alt="VERA Logo" priority />
+                      <img ngSrc="assets/Socrate.png" width="250" height="250" alt="Socrate, représentant une erreur" priority />
                     }
                   </div>
                   <p class="text-[20px]/[24px] text-[#111110] dark:text-[#FEF2E4] px-[33px] whitespace-pre-line">
@@ -48,22 +48,22 @@
                   </p>
                 </div>
               } @else {
-                <div class="p-[52px] px-[18px] space-y-2 md:max-w-[1080px] lg:w-5xl mx-auto">
+                <div class="p-[52px] px-[18px] space-y-2 md:max-w-[1080px] lg:w-5xl mx-auto" role="region" aria-label="Réponse de VERA">
                   <div class="m-auto mb-[50px] rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
-                    <img ngSrc="assets/Vera.png" width="65" height="65" alt="VERA Logo" priority />
+                    <img ngSrc="assets/Vera.png" width="65" height="65" alt="Avatar de VERA" priority />
                   </div>
 
                   @if (isLinks(turn.answer)) {
-                    <div class="mt-4 mb-[65.5px] px-[15px] max-w-[680px] mx-auto">
+                    <nav class="mt-4 mb-[65.5px] px-[15px] max-w-[680px] mx-auto" aria-label="Sources de l'article">
                       @if (isMultipleLinks(turn.answer)) {
                         @for (link of turn.answer.links; track $index) {
                           <div class="relative p-4 flex flex-col items-center gap-6 rounded-md shadow-md">
-                            <div class="absolute top-0 left-0 w-full h-4/5 bg-[#DBF9BE]"></div>
+                            <div class="absolute top-0 left-0 w-full h-4/5 bg-[#DBF9BE]" role="presentation"></div>
                             <p class="text-[18px]/[21px] lg:text-[22px]/[21px] text-[#111110]">Lire une enquête publiée par</p>
-                            <img [src]="getFavicon(turn.answer.links![$index])" (error)="onFaviconError($event, turn.answer.links![$index])" alt="" class="max-h-8 object-contain">
-                            <a [href]="turn.answer.links![$index]" target="_blank" class="bg-[#111110] dark:border dark:border-[#DBF9BE] py-2.5 px-5.5 rounded-full hover:underline flex items-center gap-2">
+                            <img [src]="getFavicon(turn.answer.links![$index])" (error)="onFaviconError($event, turn.answer.links![$index])" alt="Icône du site source" class="max-h-8 object-contain">
+                            <a [href]="turn.answer.links![$index]" target="_blank" rel="noopener noreferrer" aria-label="Lire l'article source numéro {{$index + 1}} (ouvre dans un nouvel onglet)" class="bg-[#111110] dark:border dark:border-[#DBF9BE] py-2.5 px-5.5 rounded-full hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#DBF9BE] flex items-center gap-2">
                               <p class="text-[#fff] lg:text-[22px]/[21px]">Lire l'article à la source</p>
-                              <svg class="w-[25px] h-3.5" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <svg class="w-[25px] h-3.5" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M19.4448 7.77772H5.44477C5.00921 7.77772 4.66699 7.4355 4.66699 6.99995C4.66699 6.56439 5.00921 6.22217 5.44477 6.22217H19.4448C19.8803 6.22217 20.2225 6.56439 20.2225 6.99995C20.2225 7.4355 19.8803 7.77772 19.4448 7.77772Z" fill="#FEF2E4"/>
                                 <path d="M15.5551 13.2223C15.4531 13.2235 15.352 13.2034 15.2582 13.1632C15.1644 13.123 15.0801 13.0637 15.0107 12.9889C14.6996 12.6778 14.6996 12.1956 15.0107 11.8845L19.9107 6.98448L15.0107 2.08448C14.6996 1.77337 14.6996 1.29115 15.0107 0.980037C15.3218 0.668926 15.804 0.668926 16.1151 0.980037L21.5596 6.42448C21.8707 6.73559 21.8707 7.21782 21.5596 7.52893L16.1151 12.9734C15.9596 13.1289 15.7573 13.2067 15.5707 13.2067L15.5551 13.2223Z" fill="#FEF2E4"/>
                               </svg>
@@ -73,17 +73,17 @@
                       } @else {
                         <div class="bg-[#DBF9BE] p-4 flex flex-col items-center gap-6 rounded-md shadow-md">
                           <p class="text-[18px]/[21px] lg:text-[22px]/[21px] text-[#111110]">Lire une enquête publiée par</p>
-                          <img [src]="getFavicon(turn.answer.links![0])" (error)="onFaviconError($event, turn.answer.links![0])" alt="" class="max-h-8 object-contain">
-                          <a [href]="turn.answer.links![0]" target="_blank" class="bg-[#111110] py-2.5 px-5.5 rounded-full hover:underline flex items-center gap-2">
+                          <img [src]="getFavicon(turn.answer.links![0])" (error)="onFaviconError($event, turn.answer.links![0])" alt="Icône du site source" class="max-h-8 object-contain">
+                          <a [href]="turn.answer.links![0]" target="_blank" rel="noopener noreferrer" aria-label="Lire l'article source (ouvre dans un nouvel onglet)" class="bg-[#111110] py-2.5 px-5.5 rounded-full hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#111110] flex items-center gap-2">
                             <p class="text-[#fff] lg:text-[22px]/[21px]">Lire l'article à la source</p>
-                            <svg class="w-[25px] h-3.5" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-[25px] h-3.5" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                               <path d="M19.4448 7.77772H5.44477C5.00921 7.77772 4.66699 7.4355 4.66699 6.99995C4.66699 6.56439 5.00921 6.22217 5.44477 6.22217H19.4448C19.8803 6.22217 20.2225 6.56439 20.2225 6.99995C20.2225 7.4355 19.8803 7.77772 19.4448 7.77772Z" fill="#FEF2E4"/>
                               <path d="M15.5551 13.2223C15.4531 13.2235 15.352 13.2034 15.2582 13.1632C15.1644 13.123 15.0801 13.0637 15.0107 12.9889C14.6996 12.6778 14.6996 12.1956 15.0107 11.8845L19.9107 6.98448L15.0107 2.08448C14.6996 1.77337 14.6996 1.29115 15.0107 0.980037C15.3218 0.668926 15.804 0.668926 16.1151 0.980037L21.5596 6.42448C21.8707 6.73559 21.8707 7.21782 21.5596 7.52893L16.1151 12.9734C15.9596 13.1289 15.7573 13.2067 15.5707 13.2067L15.5551 13.2223Z" fill="#FEF2E4"/>
                             </svg>
                           </a>
                         </div>
                       }
-                    </div>
+                    </nav>
                   }
                   <p class="text-[20px]/[24px] text-[#111110] dark:text-[#FEF2E4] dark:bg-[#1F1C19] px-[15px] rounded-md whitespace-pre-line">
                     {{ turn.answer.content }}
@@ -93,12 +93,12 @@
               }
             } @else {
               <!-- éventuellement un petit "VERA réfléchit..." local à la carte -->
-              <div class="pt-[52px] space-y-2">
+              <div class="pt-[52px] space-y-2" role="status" aria-live="polite" aria-label="VERA est en train de réfléchir">
                   <div class="m-auto mb-[50px] rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
-                    <img ngSrc="assets/Vera.png" width="65" height="65" alt="VERA Logo" priority />
+                    <img ngSrc="assets/Vera.png" width="65" height="65" alt="Avatar de VERA" priority />
                   </div>
                   <p class="text-[20px]/[24px] text-[#111110] dark:text-[#DBF9BE] px-[33px] whitespace-pre-line flex items-center gap-2">
-                    <svg class="animate-spin h-5 w-5 text-[#0066cc]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg class="animate-spin h-5 w-5 text-[#0066cc]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -106,21 +106,22 @@
                   </p>
                 </div>
             }
-          </div>
+          </article>
 
         }
       </div>
 
     }
-  </div>
+  </main>
 
   @if (hasFiles) {
-    <div class="fixed bottom-[70px] right-0 w-3/4 px-6 z-20">
+    <aside class="fixed bottom-[70px] right-0 w-3/4 px-6 z-20" role="complementary" aria-label="Fichiers sélectionnés">
       <!-- Conteneur scrollable si beaucoup de fichiers -->
-      <div class="max-h-40 overflow-y-auto space-y-2">
+      <div class="max-h-40 overflow-y-auto space-y-2" role="list">
         @for (file of selectedFiles; track $index) {
           <div
             class="bg-[#1F1C19]/90 backdrop-blur-sm border border-[#4a4642] rounded-xl px-3 py-2 flex items-center justify-between text-[#FEF2E4] gap-3 w-3/4 md:w-[250px]"
+            role="listitem"
           >
             <div class="flex-1 min-w-0">
               <span class="block text-sm font-medium truncate">
@@ -134,18 +135,19 @@
             <button
               type="button"
               (click)="removeFile($index)"
-              class="shrink-0 text-xs text-[#FEF2E4]/60 hover:text-red-400"
+              class="shrink-0 text-xs text-[#FEF2E4]/60 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-red-400"
+              aria-label="Retirer le fichier {{file.name}}"
             >
               Retirer
             </button>
           </div>
         }
       </div>
-    </div>
+    </aside>
   }
 
   <div class="fixed bottom-0 left-1/2 -translate-x-1/2 px-6 py-2 md:pb-8 w-full md:w-[720px] lg:w-5xl z-20">
-    <form class="flex items-center bg-[#1F1C19] dark:bg-[#DBF9BE] rounded-full px-4 py-2 gap-4 w-full">
+    <form class="flex items-center bg-[#1F1C19] dark:bg-[#DBF9BE] rounded-full px-4 py-2 gap-4 w-full" role="search" aria-label="Formulaire de conversation avec VERA" (submit)="onSubmit(); $event.preventDefault()">
       <!-- Bloc upload avec menu -->
       <div class="relative shrink-0">
         <!-- input file caché -->
@@ -161,7 +163,10 @@
         <button
           type="button"
           (click)="toggleUploadMenu()"
-          class="cursor-pointer hover:bg-slate-800 rounded-full p-1 flex items-center justify-center"
+          class="cursor-pointer hover:bg-slate-800 rounded-full p-1 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#DBF9BE]"
+          aria-label="Ouvrir le menu d'importation de fichiers"
+          [attr.aria-expanded]="isUploadMenuOpen"
+          aria-controls="upload-menu"
         >
           @if (isDarkMode) {
             <ng-icon name="matPlusOutline" size="28px" color="#111110"></ng-icon>
@@ -173,39 +178,48 @@
         <!-- menu déroulant -->
         @if (isUploadMenuOpen) {
           <div
+            id="upload-menu"
             class="absolute bottom-full left-0 mb-2 w-48 rounded-xl bg-[#1F1C19] border border-[#4a4642] shadow-lg py-2"
+            role="menu"
+            aria-label="Menu d'importation"
           >
             <button
               type="button"
               (click)="chooseFile()"
-              class="w-full text-left px-3 py-2 text-sm text-[#FEF2E4] hover:bg-[#2c2927] flex items-center gap-2"
+              class="w-full text-left px-3 py-2 text-sm text-[#FEF2E4] hover:bg-[#2c2927] focus:bg-[#2c2927] focus:outline-none flex items-center gap-2"
+              role="menuitem"
             >
-              <ng-icon name="matFileUploadOutline" size="20px" color="#FEF2E4"></ng-icon> Importer un fichier
+              <ng-icon name="matFileUploadOutline" size="20px" color="#FEF2E4" aria-hidden="true"></ng-icon> Importer un fichier
             </button>
           </div>
         }
       </div>
 
+      <label for="question-input" class="sr-only">Votre question pour VERA</label>
       <textarea
+        id="question-input"
         #textarea
         [(ngModel)]="input"
         (input)="autoResize(textarea)"
         name="question"
         rows="1"
         placeholder="Pose ta question à VERA..."
-        class="flex-1 placeholder:text-[#FEF2E4]/30 dark:placeholder:text-[#111110]/30 text-[#FEF2E4] dark:text-[#111110] text-md resize-none focus:outline-none overflow-y-auto"
+        class="flex-1 placeholder:text-[#FEF2E4]/30 dark:placeholder:text-[#111110]/30 text-[#FEF2E4] dark:text-[#111110] text-md resize-none focus:outline-none focus:ring-2 focus:ring-[#DBF9BE] overflow-y-auto"
         style="max-height:calc(1.5rem * 3);"
+        aria-label="Champ de saisie de question"
+        aria-required="false"
       ></textarea>
 
       <button
-        class="cursor-pointer hover:bg-slate-800 rounded-full p-1 flex items-center justify-center shrink-0"
+        class="cursor-pointer hover:bg-slate-800 rounded-full p-1 flex items-center justify-center shrink-0 focus:outline-none focus:ring-2 focus:ring-[#DBF9BE]"
         type="submit"
-        (click)="onSubmit()"
+        aria-label="Envoyer la question"
+        [attr.aria-disabled]="isLoading"
       >
         @if (isDarkMode) {
-          <ng-icon name="matSendOutline" size="28px" color="#111110"></ng-icon>
+          <ng-icon name="matSendOutline" size="28px" color="#111110" aria-hidden="true"></ng-icon>
         } @else {
-          <ng-icon name="matSendOutline" size="28px" color="#FEF2E4"></ng-icon>
+          <ng-icon name="matSendOutline" size="28px" color="#FEF2E4" aria-hidden="true"></ng-icon>
         }
       </button>
     </form>
