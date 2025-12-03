@@ -21,12 +21,12 @@
     }
     @if(!isListMessageEmpty()) {
       <!-- Liste des messages -->
-      <div class="max-h-[calc(100vh-62px)] flex flex-col gap-4 pb-8 overflow-y-auto">
+      <div class="max-h-[calc(100vh-62px)] flex flex-col gap-4 pb-[100px] overflow-y-auto">
         @for (turn of turns; track $index) {
 
           <div class="text-[#FEF2E4]">
             <!-- Question user, sticky -->
-            <div class="sticky top-0 bg-[#FEF2E4] dark:bg-[#111110] text-[#111110] dark:text-[#FEF2E4] py-[18px] border-b border-white/10 w-full z-10">
+            <div class="sticky top-0 bg-[#FEF2E4] dark:bg-[#111110] text-[#111110] dark:text-[#FEF2E4] py-[18px] w-full z-10">
               <p class="text-[24px] text-center font-medium whitespace-pre-line">
                 {{ turn.question.content }}
               </p>
@@ -48,21 +48,39 @@
                   </p>
                 </div>
               } @else {
-                <div class="pt-[52px] px-[18px] space-y-2 md:max-w-[720px] lg:w-5xl mx-auto">
+                <div class="p-[52px] px-[18px] space-y-2 md:max-w-[1080px] lg:w-5xl mx-auto">
                   <div class="m-auto mb-[50px] rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
                     <img ngSrc="assets/Vera.png" width="65" height="65" alt="VERA Logo" priority />
                   </div>
+
                   @if (isLinks(turn.answer)) {
-                    <div class="">
+                    <div class="mt-4 mb-[65.5px] px-[15px] max-w-[680px] mx-auto">
                       @if (isMultipleLinks(turn.answer)) {
                         @for (link of turn.answer.links; track $index) {
-                          <div>
-                            <p>Lire des enquêtes publiée par</p>
+                          <div class="relative p-4 flex flex-col items-center gap-6 rounded-md shadow-md">
+                            <div class="absolute top-0 left-0 w-full h-4/5 bg-[#DBF9BE]"></div>
+                            <p class="text-[18px]/[21px] lg:text-[22px]/[21px] text-[#111110]">Lire une enquête publiée par</p>
+                            <img [src]="getFavicon(turn.answer.links![$index])" (error)="onFaviconError($event, turn.answer.links![$index])" alt="" class="max-h-8 object-contain">
+                            <a [href]="turn.answer.links![$index]" target="_blank" class="bg-[#111110] dark:border dark:border-[#DBF9BE] py-2.5 px-5.5 rounded-full hover:underline flex items-center gap-2">
+                              <p class="text-[#fff] lg:text-[22px]/[21px]">Lire l'article à la source</p>
+                              <svg class="w-[25px] h-[14px]" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19.4448 7.77772H5.44477C5.00921 7.77772 4.66699 7.4355 4.66699 6.99995C4.66699 6.56439 5.00921 6.22217 5.44477 6.22217H19.4448C19.8803 6.22217 20.2225 6.56439 20.2225 6.99995C20.2225 7.4355 19.8803 7.77772 19.4448 7.77772Z" fill="#FEF2E4"/>
+                                <path d="M15.5551 13.2223C15.4531 13.2235 15.352 13.2034 15.2582 13.1632C15.1644 13.123 15.0801 13.0637 15.0107 12.9889C14.6996 12.6778 14.6996 12.1956 15.0107 11.8845L19.9107 6.98448L15.0107 2.08448C14.6996 1.77337 14.6996 1.29115 15.0107 0.980037C15.3218 0.668926 15.804 0.668926 16.1151 0.980037L21.5596 6.42448C21.8707 6.73559 21.8707 7.21782 21.5596 7.52893L16.1151 12.9734C15.9596 13.1289 15.7573 13.2067 15.5707 13.2067L15.5551 13.2223Z" fill="#FEF2E4"/>
+                              </svg>
+                            </a>
                           </div>
                         }
                       } @else {
-                        <div>
-                          <p>Lire une enquête publiée par</p>
+                        <div class="bg-[#DBF9BE] p-4 flex flex-col items-center gap-6 rounded-md shadow-md">
+                          <p class="text-[18px]/[21px] lg:text-[22px]/[21px] text-[#111110]">Lire une enquête publiée par</p>
+                          <img [src]="getFavicon(turn.answer.links![0])" (error)="onFaviconError($event, turn.answer.links![0])" alt="" class="max-h-8 object-contain">
+                          <a [href]="turn.answer.links![0]" target="_blank" class="bg-[#111110] py-2.5 px-5.5 rounded-full hover:underline flex items-center gap-2">
+                            <p class="text-[#fff] lg:text-[22px]/[21px]">Lire l'article à la source</p>
+                            <svg class="w-[25px] h-[14px]" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M19.4448 7.77772H5.44477C5.00921 7.77772 4.66699 7.4355 4.66699 6.99995C4.66699 6.56439 5.00921 6.22217 5.44477 6.22217H19.4448C19.8803 6.22217 20.2225 6.56439 20.2225 6.99995C20.2225 7.4355 19.8803 7.77772 19.4448 7.77772Z" fill="#FEF2E4"/>
+                              <path d="M15.5551 13.2223C15.4531 13.2235 15.352 13.2034 15.2582 13.1632C15.1644 13.123 15.0801 13.0637 15.0107 12.9889C14.6996 12.6778 14.6996 12.1956 15.0107 11.8845L19.9107 6.98448L15.0107 2.08448C14.6996 1.77337 14.6996 1.29115 15.0107 0.980037C15.3218 0.668926 15.804 0.668926 16.1151 0.980037L21.5596 6.42448C21.8707 6.73559 21.8707 7.21782 21.5596 7.52893L16.1151 12.9734C15.9596 13.1289 15.7573 13.2067 15.5707 13.2067L15.5551 13.2223Z" fill="#FEF2E4"/>
+                            </svg>
+                          </a>
                         </div>
                       }
                     </div>
@@ -70,6 +88,7 @@
                   <p class="text-[20px]/[24px] text-[#111110] dark:text-[#FEF2E4] dark:bg-[#1F1C19] px-[15px] rounded-md whitespace-pre-line">
                     {{ turn.answer.content }}
                   </p>
+
                 </div>
               }
             } @else {
@@ -125,7 +144,7 @@
     </div>
   }
 
-  <div class="fixed bottom-0 left-1/2 -translate-x-1/2 px-6 py-2 md:pb-8 sm:w-full md:w-[720px] lg:w-5xl z-20">
+  <div class="fixed bottom-0 left-1/2 -translate-x-1/2 px-6 py-2 md:pb-8 w-full md:w-[720px] lg:w-5xl z-20">
     <form class="flex items-center bg-[#1F1C19] dark:bg-[#DBF9BE] rounded-full px-4 py-2 gap-4 w-full">
       <!-- Bloc upload avec menu -->
       <div class="relative shrink-0">

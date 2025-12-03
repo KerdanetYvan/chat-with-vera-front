@@ -140,11 +140,28 @@ export class Chat {
   }
 
   isLinks(msg: ChatMessage): boolean {
-    return msg.links !== undefined && msg.links.length > 0;
+    const hasLinks = msg.links !== undefined && msg.links.length > 0;
+    return hasLinks;
   }
 
   isMultipleLinks(msg: ChatMessage): boolean {
-    return msg.links !== undefined && msg.links.length > 1;
+    const multiple = msg.links !== undefined && msg.links.length > 1;
+    return multiple;
+  }
+
+  onFaviconError(event: Event, url: string) {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
+
+    // Récupérer le hostname
+    const hostname = new URL(url).hostname.replace('www.', '');
+
+    // Ajouter un élément texte juste après l'image
+    const fallback = document.createElement('span');
+    fallback.textContent = hostname;
+    fallback.className = 'favicon-fallback';
+
+    img.parentElement?.appendChild(fallback);
   }
 
   onSubmit() {
@@ -190,6 +207,7 @@ export class Chat {
             links: this.extractUrls((res as any).data ?? (res as any).answer ?? String(res)),
             createdAt: new Date(),
           };
+          console.log('AnswerMsg:', answerMsg);
 
           // ➜ on met la réponse dans le DERNIER tour
           const lastIndex = this.turns.length - 1;
