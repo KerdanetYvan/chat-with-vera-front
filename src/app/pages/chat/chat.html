@@ -12,7 +12,7 @@
     @if (isListMessageEmpty()) {
       <div class="welcome-message h-full pt-20">
         <div class="flex flex-col items-center gap-20">
-          <h1 class="text-[32px] dark:text-[#DBF9BE]">Parlez à VERA</h1>
+          <h1 class="text-[32px] dark:text-[#DBF9BE] font-family-lastik">Parlez à Vera</h1>
           <div class="rounded-full bg-[#1F1C19] h-fit w-fit overflow-hidden">
             <img ngSrc="assets/Vera.png" width="200" height="200" alt="VERA Logo" priority />
           </div>
@@ -27,7 +27,7 @@
           <div class="text-[#FEF2E4]">
             <!-- Question user, sticky -->
             <div class="sticky top-0 bg-[#FEF2E4] dark:bg-[#111110] text-[#111110] dark:text-[#FEF2E4] py-[18px] w-full z-10">
-              <p class="text-[24px] text-center font-medium whitespace-pre-line">
+              <p class="text-[24px] text-center font-medium whitespace-pre-line font-family-lastik">
                 {{ turn.question.content }}
               </p>
             </div>
@@ -63,7 +63,7 @@
                             <img [src]="getFavicon(turn.answer.links![$index])" (error)="onFaviconError($event, turn.answer.links![$index])" alt="" class="max-h-8 object-contain">
                             <a [href]="turn.answer.links![$index]" target="_blank" class="bg-[#111110] dark:border dark:border-[#DBF9BE] py-2.5 px-5.5 rounded-full hover:underline flex items-center gap-2">
                               <p class="text-[#fff] lg:text-[22px]/[21px]">Lire l'article à la source</p>
-                              <svg class="w-[25px] h-[14px]" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <svg class="w-[25px] h-3.5" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M19.4448 7.77772H5.44477C5.00921 7.77772 4.66699 7.4355 4.66699 6.99995C4.66699 6.56439 5.00921 6.22217 5.44477 6.22217H19.4448C19.8803 6.22217 20.2225 6.56439 20.2225 6.99995C20.2225 7.4355 19.8803 7.77772 19.4448 7.77772Z" fill="#FEF2E4"/>
                                 <path d="M15.5551 13.2223C15.4531 13.2235 15.352 13.2034 15.2582 13.1632C15.1644 13.123 15.0801 13.0637 15.0107 12.9889C14.6996 12.6778 14.6996 12.1956 15.0107 11.8845L19.9107 6.98448L15.0107 2.08448C14.6996 1.77337 14.6996 1.29115 15.0107 0.980037C15.3218 0.668926 15.804 0.668926 16.1151 0.980037L21.5596 6.42448C21.8707 6.73559 21.8707 7.21782 21.5596 7.52893L16.1151 12.9734C15.9596 13.1289 15.7573 13.2067 15.5707 13.2067L15.5551 13.2223Z" fill="#FEF2E4"/>
                               </svg>
@@ -76,7 +76,7 @@
                           <img [src]="getFavicon(turn.answer.links![0])" (error)="onFaviconError($event, turn.answer.links![0])" alt="" class="max-h-8 object-contain">
                           <a [href]="turn.answer.links![0]" target="_blank" class="bg-[#111110] py-2.5 px-5.5 rounded-full hover:underline flex items-center gap-2">
                             <p class="text-[#fff] lg:text-[22px]/[21px]">Lire l'article à la source</p>
-                            <svg class="w-[25px] h-[14px]" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-[25px] h-3.5" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M19.4448 7.77772H5.44477C5.00921 7.77772 4.66699 7.4355 4.66699 6.99995C4.66699 6.56439 5.00921 6.22217 5.44477 6.22217H19.4448C19.8803 6.22217 20.2225 6.56439 20.2225 6.99995C20.2225 7.4355 19.8803 7.77772 19.4448 7.77772Z" fill="#FEF2E4"/>
                               <path d="M15.5551 13.2223C15.4531 13.2235 15.352 13.2034 15.2582 13.1632C15.1644 13.123 15.0801 13.0637 15.0107 12.9889C14.6996 12.6778 14.6996 12.1956 15.0107 11.8845L19.9107 6.98448L15.0107 2.08448C14.6996 1.77337 14.6996 1.29115 15.0107 0.980037C15.3218 0.668926 15.804 0.668926 16.1151 0.980037L21.5596 6.42448C21.8707 6.73559 21.8707 7.21782 21.5596 7.52893L16.1151 12.9734C15.9596 13.1289 15.7573 13.2067 15.5707 13.2067L15.5551 13.2223Z" fill="#FEF2E4"/>
                             </svg>
