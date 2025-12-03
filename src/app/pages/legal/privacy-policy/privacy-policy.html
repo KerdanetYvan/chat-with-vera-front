@@ -1,1 +1,247 @@
-<p>privacy-policy works!</p>
+<div class="pt-[62px] relative min-h-screen">
+  <img src="assets/bg_mobile.png" alt="" role="presentation" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  <img src="assets/bg_desktop.png" alt="" role="presentation" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+
+  <main class="relative z-10 px-6 py-12 max-w-4xl mx-auto">
+    <article class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-8 shadow-lg">
+      <header class="mb-8">
+        <h1 class="text-[38px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">Politique de confidentialité</h1>
+        <p class="text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]"><strong>Date de dernière mise à jour :</strong> Décembre 2025</p>
+      </header>
+
+      <div class="text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4] space-y-8">
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">1. Introduction</h2>
+          <p class="mb-4">
+            La présente politique de confidentialité vous informe sur la manière dont nous collectons, traitons,
+            utilisons et protégeons vos données à caractère personnel dans le cadre de l'utilisation de l'application
+            <strong>ChatWithVera</strong>. Nous nous engageons à respecter le Règlement général sur la protection
+            des données (RGPD) ainsi que la législation française en vigueur.
+          </p>
+          <p>
+            ChatWithVera est un projet développé dans un contexte pédagogique par des étudiants.
+            L'application pourrait à terme devenir la plateforme officielle de l'association gérant le service VERA.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">2. Responsable du traitement</h2>
+          <p class="mb-4">Le responsable du traitement des données personnelles est :</p>
+          <address class="not-italic">
+            <strong>Équipe ChatWithVera</strong><br>
+            Projet pédagogique étudiant<br>
+            Email : <a href="mailto:contact@chatwithvera.fr" class="underline">contact@chatwithvera.fr</a>
+          </address>
+          <p class="mt-4">
+            Pour toute question relative à la protection de vos données personnelles ou pour exercer vos droits,
+            vous pouvez nous contacter à l'adresse email ci-dessus.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">3. Données personnelles collectées et traitées</h2>
+
+          <h3 class="text-[22px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-3 mt-6">3.1. Comptes administrateurs</h3>
+          <p class="mb-4">
+            L'application dispose de comptes administrateurs créés manuellement en base de données.
+            Ces comptes permettent d'accéder à un tableau de bord sécurisé réservé à l'équipe du projet.
+          </p>
+          <p class="mb-2">Les données collectées pour ces comptes incluent :</p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>Identifiant unique (généré automatiquement)</li>
+            <li>Nom d'utilisateur</li>
+            <li>Adresse email</li>
+            <li>Mot de passe hashé (jamais stocké en clair)</li>
+            <li>Rôle (administrateur)</li>
+          </ul>
+
+          <h3 class="text-[22px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-3 mt-6">3.2. Données de navigation et analytics</h3>
+          <p class="mb-4">
+            Afin d'améliorer nos services et de mieux comprendre l'utilisation de notre application, nous collectons
+            des données de navigation via <strong>Vercel Analytics</strong>. Ces données peuvent inclure :
+          </p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>Adresse IP (potentiellement anonymisée)</li>
+            <li>Type de navigateur et version</li>
+            <li>Système d'exploitation</li>
+            <li>Pages visitées et durée de visite</li>
+            <li>Date et heure d'accès</li>
+          </ul>
+          <p class="mt-4">
+            Ces données sont collectées à des fins statistiques uniquement et ne font l'objet d'aucun profilage publicitaire.
+          </p>
+
+          <h3 class="text-[22px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-3 mt-6">3.3. Données stockées localement (navigateur)</h3>
+          <p class="mb-4">
+            Lors de votre utilisation de ChatWithVera, certaines données sont stockées localement dans votre navigateur
+            via le mécanisme de <strong>localStorage</strong> :
+          </p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>Token d'authentification (JWT, valide environ 1 heure)</li>
+            <li>Adresse email de l'utilisateur connecté</li>
+            <li>Rôle de l'utilisateur</li>
+            <li>Préférence de thème (interface claire ou sombre)</li>
+          </ul>
+          <p class="mt-4">
+            Ces données persistent dans votre navigateur jusqu'à déconnexion ou jusqu'à ce que vous effaciez
+            manuellement le stockage de votre navigateur.
+          </p>
+
+          <h3 class="text-[22px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-3 mt-6">3.4. Messages et pièces jointes du chatbot</h3>
+          <p class="mb-4">
+            L'application ChatWithVera propose un service de chatbot accessible sans authentification (mode invité).
+            Les utilisateurs peuvent :
+          </p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>Poser des questions textuelles</li>
+            <li>Joindre des fichiers de tout type (documents, images, audio, vidéo)</li>
+          </ul>
+          <div class="bg-[#DBF9BE]/30 dark:bg-[#111110]/30 rounded-lg p-4 mt-4">
+            <p class="font-bold mb-2">⚠️ Important :</p>
+            <ul class="list-disc list-inside space-y-2 ml-4">
+              <li><strong>Notre application ne stocke pas les messages ni les pièces jointes</strong> dans notre base de données.</li>
+              <li>Les messages et fichiers sont affichés temporairement dans l'interface. <strong>Au rafraîchissement de la page, toute la conversation est perdue</strong>.</li>
+              <li>Les messages et fichiers sont transmis depuis notre backend vers un workflow automatisé hébergé sur un serveur privé (n8n), puis analysés via l'API <strong>Gemini de Google</strong>, avant d'être envoyés au service externe <strong>VERA</strong>.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">4. Finalités du traitement</h2>
+          <p class="mb-4">Nous traitons vos données personnelles pour les finalités suivantes :</p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>Gestion de l'authentification et sécurisation du tableau de bord</li>
+            <li>Fonctionnement du chatbot et vérification des faits</li>
+            <li>Amélioration de l'expérience utilisateur</li>
+            <li>Mesures d'audience et amélioration du service</li>
+            <li>Sécurité et prévention des abus</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">5. Base légale du traitement</h2>
+          <p class="mb-4">Les traitements de données personnelles effectués reposent sur :</p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li><strong>Exécution du contrat</strong> (article 6.1.b du RGPD)</li>
+            <li><strong>Intérêt légitime</strong> (article 6.1.f du RGPD)</li>
+            <li><strong>Consentement</strong> (article 6.1.a du RGPD)</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">6. Destinataires des données</h2>
+          <p class="mb-4">Vos données peuvent être transmises à :</p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li><strong>Personnel autorisé du projet ChatWithVera</strong></li>
+            <li><strong>MongoDB Atlas</strong> : stockage base de données (Europe - Paris)</li>
+            <li><strong>Vercel</strong> : hébergement frontend et analytics</li>
+            <li><strong>Google (Gemini)</strong> : analyse des documents</li>
+            <li><strong>VERA</strong> : vérification des faits</li>
+            <li><strong>n8n</strong> : workflow automatisé</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">7. Transferts de données hors de l'Union européenne</h2>
+          <p class="mb-4">
+            Certains prestataires (Google, Vercel) peuvent traiter des données hors UE.
+            Nous nous assurons que des garanties appropriées sont mises en place conformément aux articles 44 et suivants du RGPD.
+          </p>
+          <p class="mb-2">Politiques de confidentialité des prestataires :</p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>Google : <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline">https://policies.google.com/privacy</a></li>
+            <li>Vercel : <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" class="underline">https://vercel.com/legal/privacy-policy</a></li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">8. Durée de conservation des données</h2>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li><strong>Comptes administrateurs</strong> : jusqu'à la fin du projet ou demande de suppression</li>
+            <li><strong>Token JWT</strong> : expire après environ 1 heure</li>
+            <li><strong>Messages et fichiers du chatbot</strong> : non stockés par notre application</li>
+            <li><strong>Logs techniques</strong> : quelques jours à quelques semaines</li>
+            <li><strong>Analytics</strong> : selon politique Vercel (généralement quelques mois)</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">9. Vos droits</h2>
+          <p class="mb-4">Conformément au RGPD, vous disposez des droits suivants :</p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li><strong>Droit d'accès</strong> (article 15)</li>
+            <li><strong>Droit de rectification</strong> (article 16)</li>
+            <li><strong>Droit à l'effacement</strong> (article 17)</li>
+            <li><strong>Droit à la limitation du traitement</strong> (article 18)</li>
+            <li><strong>Droit d'opposition</strong> (article 21)</li>
+            <li><strong>Droit à la portabilité</strong> (article 20)</li>
+          </ul>
+          <p class="mt-4">
+            Pour exercer vos droits : <a href="mailto:contact@chatwithvera.fr" class="underline">contact@chatwithvera.fr</a><br>
+            Délai de réponse : 1 mois (extensible à 3 mois si complexe)
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">10. Protection des données des mineurs</h2>
+          <div class="bg-[#DBF9BE]/30 dark:bg-[#111110]/30 rounded-lg p-4">
+            <p class="font-bold mb-2">Si vous avez moins de 18 ans :</p>
+            <p class="mb-4">
+              Ne pas envoyer de fichiers contenant des données sensibles (documents d'identité, bulletins scolaires,
+              documents médicaux, coordonnées bancaires). Parlez-en à vos parents avant d'utiliser le chatbot.
+            </p>
+            <p class="font-bold">Parents et tuteurs légaux :</p>
+            <p>
+              Vous pouvez exercer les droits RGPD au nom de votre enfant en nous contactant.
+            </p>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">11. Sécurité des données</h2>
+          <p class="mb-4">Mesures de sécurité mises en œuvre :</p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>Hashage des mots de passe avec bcrypt</li>
+            <li>Protocole HTTPS pour chiffrement des communications</li>
+            <li>Authentification par token JWT à durée limitée</li>
+            <li>Limitation des accès aux données</li>
+            <li>Hébergement sécurisé (standards de l'industrie)</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">12. Modifications de la politique</h2>
+          <p>
+            Nous nous réservons le droit de modifier cette politique à tout moment.
+            Toute modification substantielle vous sera notifiée par un avis visible sur l'application.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">13. Droit de réclamation auprès de la CNIL</h2>
+          <p class="mb-4">
+            Vous avez le droit d'introduire une réclamation auprès de la CNIL :
+          </p>
+          <address class="not-italic">
+            <strong>CNIL</strong><br>
+            3 Place de Fontenoy - TSA 80715<br>
+            75334 PARIS CEDEX 07<br>
+            Site web : <a href="https://www.cnil.fr/" target="_blank" rel="noopener noreferrer" class="underline">https://www.cnil.fr/</a>
+          </address>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">14. Contact</h2>
+          <address class="not-italic">
+            <strong>Par email :</strong> <a href="mailto:contact@chatwithvera.fr" class="underline">contact@chatwithvera.fr</a><br>
+            <strong>Projet :</strong> ChatWithVera - Projet pédagogique étudiant
+          </address>
+        </section>
+      </div>
+
+      <div class="mt-12">
+        <a href="/" class="inline-block py-3 px-8 bg-[#111110] dark:bg-[#DBF9BE] text-[#FEF2E4] dark:text-[#111110] rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80">Retour à l'accueil</a>
+      </div>
+    </article>
+  </main>
+</div>

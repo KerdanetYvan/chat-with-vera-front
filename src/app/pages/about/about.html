@@ -1,1 +1,58 @@
-<p>about works!</p>
+<div class="pt-[62px] relative min-h-screen">
+  <img src="assets/bg_mobile.png" alt="" role="presentation" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  <img src="assets/bg_desktop.png" alt="" role="presentation" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+
+  <main class="relative z-10 px-6 py-12 max-w-4xl mx-auto">
+    <article class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-8 shadow-lg">
+      <header class="mb-8">
+        <h1 class="text-[38px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">À propos de ChatWithVera</h1>
+      </header>
+
+      <div class="space-y-8 text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+        <section>
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">Le projet</h2>
+          <p class="mb-4">
+            <strong>ChatWithVera</strong> est une application web développée dans le cadre d'un projet pédagogique.
+            Cette plateforme facilite l'accès au service VERA, un outil de vérification des faits basé sur l'IA.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">Technologies</h2>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li><strong>Frontend</strong> : Angular 21</li>
+            <li><strong>Backend</strong> : NestJS</li>
+            <li><strong>Base de données</strong> : MongoDB Atlas (Europe/Paris)</li>
+            <li><strong>IA</strong> : Google Gemini + VERA</li>
+            <li><strong>Hébergement</strong> : Vercel</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">Protection des données (RGPD)</h2>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>Minimisation des données collectées</li>
+            <li>Non-stockage des messages du chatbot</li>
+            <li>Chiffrement HTTPS et tokens sécurisés</li>
+            <li>Protection spécifique pour les mineurs</li>
+          </ul>
+          <p class="mt-4">→ <a href="/legal/privacy-policy" class="underline">Voir la Politique de confidentialité</a></p>
+        </section>
+
+        <section>
+          <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">Liens utiles</h2>
+          <nav class="space-y-2">
+            <div>→ <a href="/legal/privacy-policy" class="underline">Politique de confidentialité</a></div>
+            <div>→ <a href="/legal/cgu" class="underline">Conditions Générales d'Utilisation</a></div>
+            <div>→ <a href="/legal/legal-notice" class="underline">Mentions légales</a></div>
+            <div>→ <a href="/legal/upload-warning" class="underline">Avertissement fichiers</a></div>
+          </nav>
+        </section>
+      </div>
+
+      <div class="mt-12">
+        <a href="/" class="inline-block py-3 px-8 bg-[#111110] dark:bg-[#DBF9BE] text-[#FEF2E4] dark:text-[#111110] rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80">Retour à l'accueil</a>
+      </div>
+    </article>
+  </main>
+</div>

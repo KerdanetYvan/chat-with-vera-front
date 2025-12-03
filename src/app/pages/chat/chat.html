@@ -146,6 +146,56 @@
     </aside>
   }
 
+  <!-- Modale d'avertissement avant import de fichiers -->
+  @if (showWarningModal) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" (click)="closeWarningModal()">
+      <div class="bg-[#FEF2E4] dark:bg-[#1F1C19] rounded-[20px] p-8 max-w-2xl w-full shadow-2xl" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="warning-modal-title">
+        <h2 id="warning-modal-title" class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-6">⚠️ Avertissement important</h2>
+
+        <div class="space-y-4 text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+          <p><strong>Vos fichiers seront transmis à des services externes (Google Gemini et VERA).</strong></p>
+
+          <div class="bg-[#DBF9BE]/30 dark:bg-[#111110]/50 rounded-lg p-4">
+            <p class="font-bold mb-2">⚠️ Ne pas envoyer :</p>
+            <ul class="list-disc list-inside space-y-1 ml-2 text-[14px]">
+              <li>Documents d'identité</li>
+              <li>Informations médicales</li>
+              <li>Coordonnées bancaires</li>
+              <li>Bulletins scolaires</li>
+              <li>Documents confidentiels</li>
+            </ul>
+          </div>
+
+          <p class="text-[14px]"><strong>Mineurs :</strong> Parlez-en à vos parents avant d'envoyer des fichiers.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 mt-8">
+          <button
+            (click)="goToWarningPage()"
+            class="flex-1 py-3 px-6 border-2 border-[#111110] dark:border-[#DBF9BE] text-[#111110] dark:text-[#DBF9BE] rounded-full font-family-fustat text-[16px] font-medium transition-all hover:bg-[#111110]/10 dark:hover:bg-[#DBF9BE]/10"
+            type="button"
+          >
+            En savoir plus
+          </button>
+          <button
+            (click)="closeWarningModal()"
+            class="flex-1 py-3 px-6 border-2 border-[#111110] dark:border-[#DBF9BE] text-[#111110] dark:text-[#DBF9BE] rounded-full font-family-fustat text-[16px] font-medium transition-all hover:bg-[#111110]/10 dark:hover:bg-[#DBF9BE]/10"
+            type="button"
+          >
+            Annuler
+          </button>
+          <button
+            (click)="continueToFileUpload()"
+            class="flex-1 py-3 px-6 bg-[#111110] dark:bg-[#DBF9BE] text-[#FEF2E4] dark:text-[#111110] rounded-full font-family-fustat text-[16px] font-medium transition-all hover:opacity-80"
+            type="button"
+          >
+            J'ai compris
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
   <div class="fixed bottom-0 left-1/2 -translate-x-1/2 px-6 py-2 md:pb-8 w-full md:w-[720px] lg:w-5xl z-20">
     <form class="flex items-center bg-[#1F1C19] dark:bg-[#DBF9BE] rounded-full px-4 py-2 gap-4 w-full" role="search" aria-label="Formulaire de conversation avec VERA" (submit)="onSubmit(); $event.preventDefault()">
       <!-- Bloc upload avec menu -->
