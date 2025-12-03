@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth';
+import { AuthService } from '../../auth/auth.service'
+import { AuthHttpService } from '../../auth/auth-http.service';
 
 @Component({
   selector: 'app-login',
@@ -11,31 +12,34 @@ import { AuthService } from '../../core/services/auth';
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
+
 export class Login {
   email = '';
   password = '';
-  error = '';
+
+  loading = false;      // 🔹 ajoute cette propriété
+  error?: string;       // (facultatif mais utile)
 
   constructor(
+    private authHttp: AuthHttpService,
     private auth: AuthService,
     private router: Router,
   ) {}
 
-  onSubmit() {
-    const payload = {
-      email: this.email,
-      password: this.password,
-    };
+  onSubmit(): void {
+    this.error = undefined;
+    this.loading = true;
 
-    this.auth.login(payload).subscribe({
+    this.authHttp.login({ email: this.email, password: this.password }).subscribe({
       next: (res) => {
-        this.auth.setSession(res);
-
-        this.router.navigate([res.user.role === 'admin' ? '/dashboard' : '/chat']);
+        this.auth.setToken(res.access_token);
+        this.loading = false;
+        this.router.navigate(['/dashboard']);
       },
       error: () => {
-        this.error = "Identifiants invalides.";
-      }
+        this.error = 'Identifiant ou mot de passe invalide';
+        this.loading = false;
+      },
     });
   }
 }

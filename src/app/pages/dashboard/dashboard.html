@@ -1,1 +1,30 @@
-<p>dashboard works!</p>
+<div *ngIf="loading">Chargement...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<div *ngIf="overview as o">
+  <!-- Exemple : cartes simples -->
+  <div class="cards">
+    <div class="card">
+      <h3>Utilisateurs</h3>
+      <p>{{ o.stats.totalUsers }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Sondages</h3>
+      <p>{{ o.stats.totalSurveys }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Réponses</h3>
+      <p>{{ o.stats.totalResponses }}</p>
+    </div>
+  </div>
+
+  <!-- Exemple : liste des sondages récents -->
+  <h3>Sondages récents</h3>
+  <ul>
+    <li *ngFor="let s of o.surveys.recent">
+      {{ s.title }} – {{ s.createdAt | date:'shortDate' }}
+    </li>
+  </ul>
+</div>

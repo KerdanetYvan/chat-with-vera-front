@@ -1,21 +1,21 @@
-<section class="login">
-  <h2>Connexion VERA</h2>
+<div>
+  <h1>Connexion VERA</h1>
 
   <form (ngSubmit)="onSubmit()">
     <label>
       Identifiant
-      <input [(ngModel)]="email" name="email" required />
+      <input type="email" [(ngModel)]="email" name="email" required />
     </label>
 
     <label>
       Mot de passe
-      <input [(ngModel)]="password" name="password" type="password" required />
+      <input type="password" [(ngModel)]="password" name="password" required />
     </label>
 
-    <button type="submit">Se connecter</button>
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Connexion...' : 'Se connecter' }}
+    </button>
   </form>
 
-  @if (error) {
-    <p class="error">{{ error }}</p>
-  }
-</section>
+  <p *ngIf="error" style="color:red;">{{ error }}</p>
+</div>

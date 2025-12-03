@@ -5,7 +5,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matPlusOutline, matSendOutline, matFileUploadOutline } from '@ng-icons/material-icons/outline';
 import { ThemeService } from '../../core/services/theme.service';
 
-import { AuthService } from '../../core/services/auth';
+import { AuthService } from '../../auth/auth.service';
 import { VeraApi } from '../../core/services/vera-api';
 import { NavBar } from '../../components/nav-bar/nav-bar';
 
