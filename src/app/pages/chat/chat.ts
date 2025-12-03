@@ -1,6 +1,7 @@
 import { NgOptimizedImage, CommonModule } from '@angular/common';
 import { Component, inject, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matPlusOutline, matSendOutline, matFileUploadOutline } from '@ng-icons/material-icons/outline';
 import { ThemeService } from '../../core/services/theme.service';
@@ -12,6 +13,7 @@ import { NavBar } from '../../components/nav-bar/nav-bar';
 interface ChatMessage {
   role: 'user' | 'vera';
   content: string;
+  links?: string[];
   createdAt: Date;
 }
 
@@ -38,10 +40,12 @@ export class Chat {
   private auth = inject(AuthService);
   private veraApi = inject(VeraApi);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   isDarkMode = false;
+  showWarningModal = false;
 
   constructor(private theme: ThemeService) {
     // Initialiser immédiatement
@@ -51,8 +55,20 @@ export class Chat {
     this.theme.getDarkMode().subscribe(value => {
       this.isDarkMode = value;
     });
-  }  ngOnInit() {
+  }
+
+  ngOnInit() {
     // Autre logique d'initialisation si nécessaire
+  }
+
+  // Vérifie si l'utilisateur a déjà accepté l'avertissement
+  private hasAcceptedWarning(): boolean {
+    return localStorage.getItem('fileUploadWarningAccepted') === 'true';
+  }
+
+  // Enregistre que l'utilisateur a accepté l'avertissement
+  private setWarningAccepted(): void {
+    localStorage.setItem('fileUploadWarningAccepted', 'true');
   }
 
   selectedFiles: File[] = [];
@@ -95,10 +111,33 @@ export class Chat {
     this.isUploadMenuOpen = !this.isUploadMenuOpen;
   }
 
-  // action du bouton dans le menu : ouvre le sélecteur de fichiers
+  // action du bouton dans le menu : affiche d'abord la modale d'avertissement (si pas déjà accepté)
   chooseFile() {
     this.isUploadMenuOpen = false;
+
+    // Si l'utilisateur a déjà accepté l'avertissement, ouvrir directement le sélecteur
+    if (this.hasAcceptedWarning()) {
+      this.triggerFileInput();
+    } else {
+      this.showWarningModal = true;
+    }
+  }
+
+  // Fermer la modale
+  closeWarningModal() {
+    this.showWarningModal = false;
+  }
+
+  // Continuer vers l'import de fichiers après avoir lu l'avertissement
+  continueToFileUpload() {
+    this.setWarningAccepted();
+    this.showWarningModal = false;
     this.triggerFileInput();
+  }
+
+  // Naviguer vers la page d'avertissement complète
+  goToWarningPage() {
+    this.router.navigate(['/legal/upload-warning']);
   }
 
   autoResize(textarea: HTMLTextAreaElement) {
@@ -113,6 +152,55 @@ export class Chat {
   isLoading = false;
 
   isListMessageEmpty = () => this.turns.length === 0;
+
+  extractUrls(text: string): string[] {
+    if (!text) return [];
+
+    const urlRegex = /https?:\/\/[^\s)]+/g;
+
+    const matches = text.match(urlRegex);
+
+    if (!matches) return [];
+
+    // nettoyage léger (supprime les virgules, points, parenthèses)
+    return matches.map(url =>
+      url.replace(/[.,);"]+$/, "")
+    );
+  }
+
+  getFavicon(url: string): string {
+    try {
+      const parsedUrl = new URL(url);
+      return `${parsedUrl.protocol}//${parsedUrl.hostname}/favicon.ico`;
+    } catch {
+      return '';
+    }
+  }
+
+  isLinks(msg: ChatMessage): boolean {
+    const hasLinks = msg.links !== undefined && msg.links.length > 0;
+    return hasLinks;
+  }
+
+  isMultipleLinks(msg: ChatMessage): boolean {
+    const multiple = msg.links !== undefined && msg.links.length > 1;
+    return multiple;
+  }
+
+  onFaviconError(event: Event, url: string) {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
+
+    // Récupérer le hostname
+    const hostname = new URL(url).hostname.replace('www.', '');
+
+    // Ajouter un élément texte juste après l'image
+    const fallback = document.createElement('span');
+    fallback.textContent = hostname;
+    fallback.className = 'favicon-fallback';
+
+    img.parentElement?.appendChild(fallback);
+  }
 
   onSubmit() {
     const question = this.input.trim();
@@ -154,8 +242,10 @@ export class Chat {
               (res as any).data ??
               (res as any).answer ??
               String(res),
+            links: this.extractUrls((res as any).data ?? (res as any).answer ?? String(res)),
             createdAt: new Date(),
           };
+          console.log('AnswerMsg:', answerMsg);
 
           // ➜ on met la réponse dans le DERNIER tour
           const lastIndex = this.turns.length - 1;

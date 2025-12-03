@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: process.env['apiUrlProd']
+  apiUrl: 'https://chat-with-vera-back-1.onrender.com/api'
 };
 
 

@@ -1,0 +1,399 @@
+<div class="pt-[62px] relative min-h-screen">
+  <!-- Images de fond -->
+  @if (isDarkMode) {
+    <img src="assets/bg_mobile_dark.jpg" alt="" role="presentation" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop_dark.jpg" alt="" role="presentation" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  } @else {
+    <img src="assets/bg_mobile.png" alt="" role="presentation" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+    <img src="assets/bg_desktop.png" alt="" role="presentation" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  }
+
+  <app-nav-bar class="fixed top-0 left-0 w-full z-50" role="banner"></app-nav-bar>
+
+  <!-- Contenu principal -->
+  <main class="relative z-10 px-6 py-12 max-w-4xl mx-auto" role="main">
+
+    <!-- En-tête -->
+    <div class="text-center mb-12">
+      <div class="flex justify-center mb-6">
+        <div class="rounded-full bg-[#1F1C19] dark:bg-[#DBF9BE] h-fit w-fit overflow-hidden p-4">
+          <img src="assets/Vera.png" width="100" height="100" alt="Logo VERA" />
+        </div>
+      </div>
+
+      <h1 class="text-[38px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">
+        Installer VERA sur votre appareil
+      </h1>
+
+      <p class="text-[18px] font-family-fustat text-[#111110] dark:text-[#FEF2E4] max-w-2xl mx-auto">
+        Installez VERA comme une application sur votre téléphone ou ordinateur pour y accéder rapidement, même sans connexion internet.
+      </p>
+    </div>
+
+    <!-- Bouton d'installation rapide -->
+    @if (canInstallDirectly()) {
+      <div class="bg-[#DBF9BE] dark:bg-[#1F1C19] rounded-[20px] p-6 mb-8 shadow-lg border-2 border-[#111110] dark:border-[#DBF9BE]">
+        <div class="flex flex-col md:flex-row items-center gap-4">
+          <div class="flex-1">
+            <h2 class="text-[24px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-2">
+              ✨ Installation rapide disponible !
+            </h2>
+            <p class="text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+              Votre navigateur permet l'installation en un clic. Cliquez sur le bouton ci-dessous pour installer VERA immédiatement.
+            </p>
+          </div>
+
+          <button
+            (click)="onInstallNow()"
+            [disabled]="isInstalling()"
+            class="bg-[#111110] dark:bg-[#DBF9BE] text-[#FEF2E4] dark:text-[#111110] px-8 py-3 rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-[#DBF9BE] disabled:opacity-50 shrink-0"
+            aria-label="Installer VERA maintenant"
+          >
+            @if (isInstalling()) {
+              Installation...
+            } @else if (installSuccess()) {
+              ✓ Installé !
+            } @else {
+              Installer maintenant
+            }
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Message de détection du navigateur -->
+    @if (detectedBrowser().detected) {
+      <div class="bg-[#FEF2E4] dark:bg-[#1F1C19] rounded-[20px] p-4 mb-8">
+        <p class="text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4] text-center">
+          💡 Nous avons détecté que vous utilisez
+          <strong class="font-family-lastik">
+            @switch (detectedBrowser().name) {
+              @case ('chrome') { Google Chrome }
+              @case ('firefox') { Mozilla Firefox }
+              @case ('safari') { Safari }
+              @case ('edge') { Microsoft Edge }
+              @case ('opera') { Opera }
+              @case ('samsung') { Samsung Internet }
+            }
+          </strong>.
+          Consultez les instructions ci-dessous adaptées à votre navigateur.
+        </p>
+      </div>
+    }
+
+    <!-- Guide d'installation par navigateur -->
+    <div class="space-y-4">
+
+      <!-- Chrome, Edge et Android -->
+      <div class="bg-[#FEF2E4] dark:bg-[#1F1C19] rounded-[20px] overflow-hidden shadow-md">
+        <button
+          (click)="toggleSection('chrome-edge-android')"
+          class="w-full px-6 py-4 flex items-center justify-between hover:bg-[#111110]/5 dark:hover:bg-[#DBF9BE]/5 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#DBF9BE]"
+          [attr.aria-expanded]="expandedSection() === 'chrome-edge-android'"
+        >
+          <div class="flex items-center gap-4">
+            <span class="text-[32px]">💻📱</span>
+            <h3 class="text-[20px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] text-left">
+              Chrome, Edge & Android
+            </h3>
+          </div>
+          <svg
+            class="w-6 h-6 transition-transform text-[#111110] dark:text-[#DBF9BE]"
+            [class.rotate-180]="expandedSection() === 'chrome-edge-android'"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        @if (expandedSection() === 'chrome-edge-android') {
+          <div class="px-6 pb-6 space-y-6 font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+
+            <!-- Bouton d'installation automatique -->
+            <div class="bg-[#DBF9BE] dark:bg-[#111110] rounded-lg p-6">
+              <div class="flex flex-col md:flex-row items-center gap-4">
+                <div class="flex-1">
+                  <h4 class="text-[18px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-2">
+                    🎯 Installation en un clic
+                  </h4>
+                  <p class="text-[16px]">
+                    Cliquez sur le bouton pour ouvrir la fenêtre d'installation de votre navigateur.
+                  </p>
+                </div>
+                <button
+                  (click)="onInstallNow()"
+                  [disabled]="isInstalling()"
+                  class="bg-[#111110] dark:bg-[#DBF9BE] text-[#FEF2E4] dark:text-[#111110] px-8 py-3 rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-[#111110] dark:focus:ring-[#DBF9BE] disabled:opacity-50 shrink-0"
+                  aria-label="Installer VERA maintenant"
+                >
+                  @if (isInstalling()) {
+                    Installation...
+                  } @else if (installSuccess()) {
+                    ✓ Installé !
+                  } @else {
+                    Installer VERA
+                  }
+                </button>
+              </div>
+            </div>
+
+            <!-- Instructions manuelles -->
+            <div>
+              <p class="text-[18px] font-semibold mb-3">Ou installez manuellement :</p>
+
+              <div class="space-y-4">
+                <div>
+                  <p class="font-semibold text-[16px] mb-2">Sur ordinateur (Chrome ou Edge) :</p>
+                  <ol class="space-y-2 list-decimal list-inside pl-2">
+                    <li>
+                      Regardez dans la barre d'adresse en haut de votre navigateur
+                    </li>
+                    <li>
+                      Cliquez sur l'icône <strong class="bg-[#DBF9BE] dark:bg-[#111110] px-2 py-1 rounded">📥 Installer</strong> qui apparaît à droite
+                    </li>
+                    <li>
+                      Dans la fenêtre qui s'ouvre, cliquez sur <strong>"Installer"</strong>
+                    </li>
+                    <li>
+                      VERA s'ouvre automatiquement comme une application !
+                    </li>
+                  </ol>
+                </div>
+
+                <div>
+                  <p class="font-semibold text-[16px] mb-2">Sur Android (Chrome, Edge ou Samsung Internet) :</p>
+                  <ol class="space-y-2 list-decimal list-inside pl-2">
+                    <li>
+                      Appuyez sur les <strong>trois points</strong> (⋮ ou ⋯) en haut de votre navigateur
+                    </li>
+                    <li>
+                      Sélectionnez <strong>"Installer l'application"</strong> ou <strong>"Ajouter à l'écran d'accueil"</strong>
+                    </li>
+                    <li>
+                      Confirmez en appuyant sur <strong>"Installer"</strong> ou <strong>"Ajouter"</strong>
+                    </li>
+                    <li>
+                      L'icône VERA apparaît sur votre écran d'accueil !
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-[14px] text-[#111110]/80 dark:text-[#FEF2E4]/80 italic">
+              💡 Astuce : Une fois installée, vous trouverez VERA dans vos applications comme n'importe quel autre programme !
+            </p>
+          </div>
+        }
+      </div>
+
+      <!-- Safari (iOS) -->
+      <div class="bg-[#FEF2E4] dark:bg-[#1F1C19] rounded-[20px] overflow-hidden shadow-md">
+        <button
+          (click)="toggleSection('safari-ios')"
+          class="w-full px-6 py-4 flex items-center justify-between hover:bg-[#111110]/5 dark:hover:bg-[#DBF9BE]/5 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#DBF9BE]"
+          [attr.aria-expanded]="expandedSection() === 'safari-ios'"
+        >
+          <div class="flex items-center gap-4">
+            <span class="text-[32px]">🍎</span>
+            <h3 class="text-[20px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] text-left">
+              Safari (iPhone / iPad)
+            </h3>
+          </div>
+          <svg
+            class="w-6 h-6 transition-transform text-[#111110] dark:text-[#DBF9BE]"
+            [class.rotate-180]="expandedSection() === 'safari-ios'"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        @if (expandedSection() === 'safari-ios') {
+          <div class="px-6 pb-6 space-y-4 font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+            <ol class="space-y-3 list-decimal list-inside">
+              <li class="pl-2">
+                Appuyez sur le bouton <strong>Partager</strong>
+                <span class="inline-block bg-[#DBF9BE] dark:bg-[#111110] px-2 py-1 rounded mx-1">
+                  <svg class="w-4 h-4 inline" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                  </svg>
+                </span>
+                (en bas au centre de l'écran)
+              </li>
+              <li class="pl-2">
+                Faites défiler vers le bas et appuyez sur <strong>"Sur l'écran d'accueil"</strong>
+              </li>
+              <li class="pl-2">
+                Vous pouvez modifier le nom si vous le souhaitez
+              </li>
+              <li class="pl-2">
+                Appuyez sur <strong>"Ajouter"</strong> en haut à droite
+              </li>
+              <li class="pl-2">
+                L'icône VERA apparaît sur votre écran d'accueil !
+              </li>
+            </ol>
+
+            <p class="text-[14px] text-[#111110]/80 dark:text-[#FEF2E4]/80 italic">
+              💡 Astuce : VERA fonctionnera comme une vraie application, sans la barre Safari en haut !
+            </p>
+          </div>
+        }
+      </div>
+
+      <!-- Firefox -->
+      <div class="bg-[#FEF2E4] dark:bg-[#1F1C19] rounded-[20px] overflow-hidden shadow-md">
+        <button
+          (click)="toggleSection('firefox')"
+          class="w-full px-6 py-4 flex items-center justify-between hover:bg-[#111110]/5 dark:hover:bg-[#DBF9BE]/5 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#DBF9BE]"
+          [attr.aria-expanded]="expandedSection() === 'firefox'"
+        >
+          <div class="flex items-center gap-4">
+            <span class="text-[32px]">🦊</span>
+            <h3 class="text-[20px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] text-left">
+              Mozilla Firefox
+            </h3>
+          </div>
+          <svg
+            class="w-6 h-6 transition-transform text-[#111110] dark:text-[#DBF9BE]"
+            [class.rotate-180]="expandedSection() === 'firefox'"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        @if (expandedSection() === 'firefox') {
+          <div class="px-6 pb-6 space-y-4 font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+            <p class="bg-[#DBF9BE]/30 dark:bg-[#111110]/30 rounded-lg p-4 text-[16px]">
+              <strong>Sur ordinateur :</strong> Firefox ne supporte pas encore l'installation automatique d'applications web.
+              Vous pouvez toutefois ajouter VERA à vos favoris pour y accéder rapidement !
+            </p>
+
+            <p class="text-[18px] font-semibold">Sur Android :</p>
+            <ol class="space-y-3 list-decimal list-inside">
+              <li class="pl-2">
+                Appuyez sur les <strong>trois points verticaux</strong> ⋮ en haut à droite
+              </li>
+              <li class="pl-2">
+                Sélectionnez <strong>"Installer"</strong>
+              </li>
+              <li class="pl-2">
+                Confirmez en appuyant sur <strong>"Ajouter"</strong>
+              </li>
+            </ol>
+          </div>
+        }
+      </div>
+
+      <!-- Opera -->
+      <div class="bg-[#FEF2E4] dark:bg-[#1F1C19] rounded-[20px] overflow-hidden shadow-md">
+        <button
+          (click)="toggleSection('opera')"
+          class="w-full px-6 py-4 flex items-center justify-between hover:bg-[#111110]/5 dark:hover:bg-[#DBF9BE]/5 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#DBF9BE]"
+          [attr.aria-expanded]="expandedSection() === 'opera'"
+        >
+          <div class="flex items-center gap-4">
+            <span class="text-[32px]">🎭</span>
+            <h3 class="text-[20px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] text-left">
+              Opera
+            </h3>
+          </div>
+          <svg
+            class="w-6 h-6 transition-transform text-[#111110] dark:text-[#DBF9BE]"
+            [class.rotate-180]="expandedSection() === 'opera'"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        @if (expandedSection() === 'opera') {
+          <div class="px-6 pb-6 space-y-4 font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+            <ol class="space-y-3 list-decimal list-inside">
+              <li class="pl-2">
+                Cliquez sur le bouton <strong>Opera</strong> en haut à gauche
+              </li>
+              <li class="pl-2">
+                Allez dans <strong>"Page"</strong> puis <strong>"Installer VERA..."</strong>
+              </li>
+              <li class="pl-2">
+                Confirmez en cliquant sur <strong>"Installer"</strong>
+              </li>
+            </ol>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Avantages de l'installation -->
+    <div class="mt-12 bg-[#DBF9BE] dark:bg-[#1F1C19] rounded-[20px] p-8 shadow-lg">
+      <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-6 text-center">
+        Pourquoi installer VERA ?
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="flex gap-4">
+          <span class="text-[32px] shrink-0">⚡</span>
+          <div>
+            <h3 class="text-[18px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-2">
+              Accès ultra-rapide
+            </h3>
+            <p class="text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+              Ouvrez VERA d'un simple clic, comme n'importe quelle application sur votre appareil.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <span class="text-[32px] shrink-0">📴</span>
+          <div>
+            <h3 class="text-[18px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-2">
+              Fonctionne hors ligne
+            </h3>
+            <p class="text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+              Consultez vos conversations précédentes même sans connexion internet.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <span class="text-[32px] shrink-0">🔔</span>
+          <div>
+            <h3 class="text-[18px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-2">
+              Notifications
+            </h3>
+            <p class="text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+              Recevez des alertes importantes directement sur votre appareil (bientôt disponible).
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <span class="text-[32px] shrink-0">💾</span>
+          <div>
+            <h3 class="text-[18px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-2">
+              Économie de données
+            </h3>
+            <p class="text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+              Les ressources sont mises en cache, ce qui réduit l'utilisation de vos données mobiles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

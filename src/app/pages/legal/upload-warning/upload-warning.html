@@ -1,0 +1,87 @@
+<div class="pt-[62px] relative min-h-screen">
+  <img src="assets/bg_mobile.png" alt="" role="presentation" class="fixed md:hidden lg:hidden inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+  <img src="assets/bg_desktop.png" alt="" role="presentation" class="fixed hidden md:block lg:block inset-0 w-full h-full object-cover pointer-events-none select-none z-0" />
+
+  <main class="relative z-10 px-6 py-12 max-w-4xl mx-auto">
+    <section aria-labelledby="chatbot-warning-title" class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-8 shadow-lg">
+      <h1 id="chatbot-warning-title" class="text-[38px]/[38px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-6">⚠️ Informations importantes avant d'utiliser le chatbot</h1>
+
+      <div class="space-y-6 text-[16px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">
+        <p>
+          Avant d'envoyer des messages et des fichiers au chatbot, veuillez lire attentivement les informations suivantes :
+        </p>
+
+        <div>
+          <h2 class="text-[22px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-3">Transmission à des services externes</h2>
+          <p class="mb-4">
+            Les messages que vous écrivez et les fichiers que vous joignez sont transmis à des <strong>services externes</strong>
+            pour être analysés et traités :
+          </p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>
+              <strong>Google Gemini</strong> : analyse le contenu de vos fichiers (documents, images, audio, vidéo)
+              pour en extraire des informations.
+            </li>
+            <li>
+              <strong>VERA</strong> : service d'intelligence artificielle qui vérifie les faits et fournit une réponse
+              basée sur votre question et le contenu de vos fichiers.
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-[#DBF9BE]/30 dark:bg-[#111110]/30 rounded-lg p-4">
+          <h2 class="text-[22px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-3">Notre application ne conserve pas vos données</h2>
+          <p class="mb-4">
+            <strong>ChatWithVera ne stocke pas vos messages ni vos fichiers</strong> dans sa base de données.
+            Vos conversations sont affichées temporairement dans votre navigateur et disparaissent lorsque vous
+            rafraîchissez la page.
+          </p>
+          <p>
+            Toutefois, les services externes (Google et VERA) peuvent traiter et potentiellement conserver vos données
+            selon leurs propres politiques de confidentialité. Le service VERA peut notamment conserver certaines questions
+            de manière anonymisée pour améliorer ses modèles de vérification des faits.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-[22px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-3">⚠️ Recommandations importantes</h2>
+          <p class="mb-4">
+            Pour protéger votre vie privée, nous vous recommandons vivement de <strong>ne pas envoyer de fichiers
+            contenant des informations sensibles ou personnelles</strong>, telles que :
+          </p>
+          <ul class="list-disc list-inside space-y-2 ml-4">
+            <li>Documents d'identité (carte d'identité, passeport, permis de conduire)</li>
+            <li>Documents médicaux ou informations de santé</li>
+            <li>Coordonnées bancaires ou financières</li>
+            <li>Bulletins scolaires ou documents scolaires personnels</li>
+            <li>Contrats ou documents confidentiels</li>
+            <li>Photos ou vidéos privées contenant des informations personnelles identifiables</li>
+          </ul>
+        </div>
+
+        <div class="bg-[#DBF9BE]/30 dark:bg-[#111110]/30 rounded-lg p-4">
+          <h2 class="text-[22px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-3">Si vous avez moins de 18 ans</h2>
+          <p>
+            Si vous êtes mineur, <strong>parlez-en à vos parents ou à un adulte de confiance</strong> avant d'utiliser ce service,
+            surtout si vous souhaitez envoyer des fichiers. Vos parents peuvent vous conseiller et vous aider à
+            protéger vos informations personnelles.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-[22px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-3">En savoir plus</h2>
+          <p>
+            Pour plus d'informations sur la façon dont vos données sont traitées, consultez notre
+            <a href="/legal/privacy-policy" class="underline">Politique de confidentialité</a> et nos
+            <a href="/legal/cgu" class="underline">Conditions Générales d'Utilisation</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex gap-4 flex-wrap">
+        <button (click)="acceptAndNavigate()" class="inline-block py-3 px-8 bg-[#111110] dark:bg-[#DBF9BE] text-[#FEF2E4] dark:text-[#111110] rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80 cursor-pointer">J'ai compris, accéder au chat</button>
+        <a href="/" class="inline-block py-3 px-8 border-2 border-[#111110] dark:border-[#DBF9BE] text-[#111110] dark:text-[#DBF9BE] rounded-full font-family-fustat text-[18px] font-medium transition-all hover:opacity-80">Retour à l'accueil</a>
+      </div>
+    </section>
+  </main>
+</div>
