@@ -29,6 +29,6 @@ export class AuthHttpService {
   }
 
   login(body: LoginPayload): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${API_BASE}/auth/login`, body);
+    return this.http.post<LoginResponse>(`${API_BASE}/auth/login`, body, { withCredentials: true });
   }
 }
