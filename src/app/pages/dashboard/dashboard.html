@@ -38,7 +38,7 @@
 
     <!-- Statistiques générales -->
     @if(overview) {
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-6 shadow-lg">
           <h3 class="text-[18px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mb-2">Utilisateurs</h3>
           <p class="text-[42px] font-family-lastik text-[#111110] dark:text-[#DBF9BE]">{{ overview.stats?.totalUsers ?? 0 }}</p>
@@ -48,8 +48,195 @@
           <h3 class="text-[18px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mb-2">Réponses totales</h3>
           <p class="text-[42px] font-family-lastik text-[#111110] dark:text-[#DBF9BE]">{{ overview.stats?.totalResponses ?? 0 }}</p>
         </div>
+
+        <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-6 shadow-lg">
+          <h3 class="text-[18px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mb-2">Problèmes signalés</h3>
+          <p class="text-[42px] font-family-lastik text-[#111110] dark:text-[#DBF9BE]">{{ getProblemStats().withProblems }}</p>
+          <p class="text-[14px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60">sur {{ responses.length }} réponse(s)</p>
+        </div>
       </div>
     }
+
+    <!-- Distribution des réponses -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Gain de temps -->
+      <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-6 shadow-lg">
+        <h3 class="text-[20px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">⏱️ Gain de temps</h3>
+        <div class="space-y-3">
+          @for(item of getWinTimeDistribution(); track item.text) {
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-[14px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">{{ item.text }}</span>
+                <span class="text-[14px] font-family-fustat font-medium text-[#111110] dark:text-[#DBF9BE]">{{ item.percentage }}%</span>
+              </div>
+              <div class="w-full bg-[#111110]/10 dark:bg-[#FEF2E4]/10 rounded-full h-2">
+                <div class="bg-[#DBF9BE] h-2 rounded-full transition-all" [style.width.%]="item.percentage"></div>
+              </div>
+              <span class="text-[12px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60">{{ item.count }} réponse(s)</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Facilité d'utilisation -->
+      <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-6 shadow-lg">
+        <h3 class="text-[20px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">✨ Facilité d'utilisation</h3>
+        <div class="space-y-3">
+          @for(item of getVeraEasyDistribution(); track item.text) {
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-[14px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">{{ item.text }}</span>
+                <span class="text-[14px] font-family-fustat font-medium text-[#111110] dark:text-[#DBF9BE]">{{ item.percentage }}%</span>
+              </div>
+              <div class="w-full bg-[#111110]/10 dark:bg-[#FEF2E4]/10 rounded-full h-2">
+                <div class="bg-[#DBF9BE] h-2 rounded-full transition-all" [style.width.%]="item.percentage"></div>
+              </div>
+              <span class="text-[12px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60">{{ item.count }} réponse(s)</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Fiabilité -->
+      <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-6 shadow-lg">
+        <h3 class="text-[20px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">🎯 Fiabilité</h3>
+        <div class="space-y-3">
+          @for(item of getFiabilityDistribution(); track item.text) {
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-[14px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">{{ item.text }}</span>
+                <span class="text-[14px] font-family-fustat font-medium text-[#111110] dark:text-[#DBF9BE]">{{ item.percentage }}%</span>
+              </div>
+              <div class="w-full bg-[#111110]/10 dark:bg-[#FEF2E4]/10 rounded-full h-2">
+                <div class="bg-[#DBF9BE] h-2 rounded-full transition-all" [style.width.%]="item.percentage"></div>
+              </div>
+              <span class="text-[12px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60">{{ item.count }} réponse(s)</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Recommandation -->
+      <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-6 shadow-lg">
+        <h3 class="text-[20px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-4">👍 Recommandation</h3>
+        <div class="space-y-3">
+          @for(item of getRecommandationDistribution(); track item.text) {
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-[14px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">{{ item.text }}</span>
+                <span class="text-[14px] font-family-fustat font-medium text-[#111110] dark:text-[#DBF9BE]">{{ item.percentage }}%</span>
+              </div>
+              <div class="w-full bg-[#111110]/10 dark:bg-[#FEF2E4]/10 rounded-full h-2">
+                <div class="bg-[#DBF9BE] h-2 rounded-full transition-all" [style.width.%]="item.percentage"></div>
+              </div>
+              <span class="text-[12px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60">{{ item.count }} réponse(s)</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Moyennes globales (gardées pour référence numérique) -->
+    @if(getGlobalAverages()) {
+      <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-8 shadow-lg mb-8">
+        <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-6">Résumé global</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div class="text-center">
+            <div class="text-[14px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mb-2">Facilité d'utilisation</div>
+            <div class="text-[32px] font-family-lastik text-[#111110] dark:text-[#DBF9BE]">{{ getGlobalAverages()!.veraEasy }}/5</div>
+          </div>
+          <div class="text-center">
+            <div class="text-[14px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mb-2">Gain de temps</div>
+            @if(getWinTimeDistribution()[0]) {
+              <div class="text-[24px] font-family-lastik text-[#111110] dark:text-[#DBF9BE]">{{ getWinTimeDistribution()[0].percentage }}%</div>
+              <div class="text-[12px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mt-1">{{ getWinTimeDistribution()[0].text }}</div>
+            }
+          </div>
+          <div class="text-center">
+            <div class="text-[14px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mb-2">Fiabilité</div>
+            @if(getFiabilityDistribution()[0]) {
+              <div class="text-[24px] font-family-lastik text-[#111110] dark:text-[#DBF9BE]">{{ getFiabilityDistribution()[0].percentage }}%</div>
+              <div class="text-[12px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mt-1">{{ getFiabilityDistribution()[0].text }}</div>
+            }
+          </div>
+          <div class="text-center">
+            <div class="text-[14px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mb-2">Recommandation</div>
+            @if(getRecommandationDistribution()[0]) {
+              <div class="text-[24px] font-family-lastik text-[#111110] dark:text-[#DBF9BE]">{{ getRecommandationDistribution()[0].percentage }}%</div>
+              <div class="text-[12px] font-family-fustat text-[#111110]/60 dark:text-[#FEF2E4]/60 mt-1">{{ getRecommandationDistribution()[0].text }}</div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Statistiques par catégorie -->
+    @if(getStatsByCategory().length > 0) {
+      <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-8 shadow-lg mb-8">
+        <h2 class="text-[28px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-6">Classement par source</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-[14px] font-family-fustat">
+            <thead>
+              <tr class="border-b border-[#111110]/10 dark:border-[#FEF2E4]/10">
+                <th class="text-left py-3 px-4 text-[#111110]/60 dark:text-[#FEF2E4]/60">Source</th>
+                <th class="text-center py-3 px-4 text-[#111110]/60 dark:text-[#FEF2E4]/60">Réponses</th>
+                <th class="text-center py-3 px-4 text-[#111110]/60 dark:text-[#FEF2E4]/60">Facilité (moy.)</th>
+                <th class="text-center py-3 px-4 text-[#111110]/60 dark:text-[#FEF2E4]/60">Gain de temps</th>
+                <th class="text-center py-3 px-4 text-[#111110]/60 dark:text-[#FEF2E4]/60">Fiabilité</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(cat of getStatsByCategory(); track cat.category) {
+                <tr class="border-b border-[#111110]/5 dark:border-[#FEF2E4]/5 hover:bg-[#DBF9BE]/10 transition-colors">
+                  <td class="py-3 px-4 font-medium text-[#111110] dark:text-[#FEF2E4]">{{ cat.category }}</td>
+                  <td class="text-center py-3 px-4 text-[#111110] dark:text-[#FEF2E4]">{{ cat.count }}</td>
+                  <td class="text-center py-3 px-4 text-[#111110] dark:text-[#FEF2E4]">{{ cat.avgVeraEasy }}/5</td>
+                  <td class="text-center py-3 px-4 text-[#111110] dark:text-[#FEF2E4] text-[12px]">{{ cat.mostFrequentWinTime }}</td>
+                  <td class="text-center py-3 px-4 text-[#111110] dark:text-[#FEF2E4] text-[12px]">{{ cat.mostFrequentFiability }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+    <!-- Top et Bottom classements -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <!-- Top 5 réponses -->
+      <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-8 shadow-lg">
+        <h2 class="text-[24px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-6">🏆 Top 5 réponses</h2>
+        <div class="space-y-3">
+          @for(response of getTopResponses(); track response.id; let i = $index) {
+            <div class="flex items-center gap-4 p-4 bg-white dark:bg-[#111110] rounded-xl border-l-4 border-green-500">
+              <div class="text-[24px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] w-8">{{ i + 1 }}</div>
+              <div class="flex-1">
+                <div class="text-[14px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">{{ response.whereDoYouHeard }}</div>
+                <div class="text-[12px] text-[#111110]/60 dark:text-[#FEF2E4]/60">{{ formatDate(response.horodateur) }}</div>
+              </div>
+              <div class="text-[24px] font-family-lastik text-green-600 dark:text-green-400">{{ response.recommandation }}/10</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Bottom 5 réponses -->
+      <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-8 shadow-lg">
+        <h2 class="text-[24px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] mb-6">⚠️ Points d'attention</h2>
+        <div class="space-y-3">
+          @for(response of getBottomResponses(); track response.id; let i = $index) {
+            <div class="flex items-center gap-4 p-4 bg-white dark:bg-[#111110] rounded-xl border-l-4 border-orange-500">
+              <div class="text-[24px] font-family-lastik text-[#111110] dark:text-[#DBF9BE] w-8">{{ i + 1 }}</div>
+              <div class="flex-1">
+                <div class="text-[14px] font-family-fustat text-[#111110] dark:text-[#FEF2E4]">{{ response.whereDoYouHeard }}</div>
+                <div class="text-[12px] text-[#111110]/60 dark:text-[#FEF2E4]/60">{{ formatDate(response.horodateur) }}</div>
+              </div>
+              <div class="text-[24px] font-family-lastik text-orange-600 dark:text-orange-400">{{ response.recommandation }}/10</div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
 
     <!-- Section réponses en temps réel -->
     <div class="bg-[#FEF2E4]/95 dark:bg-[#1F1C19]/95 rounded-[20px] p-8 shadow-lg">
@@ -84,24 +271,40 @@
                 </div>
               </div>
 
+              <!-- Pourquoi VERA -->
+              @if(response.pourquoiVera) {
+                <div class="mb-4 pb-4 border-b border-[#111110]/10 dark:border-[#FEF2E4]/10">
+                  <p class="text-[12px] text-[#111110]/60 dark:text-[#FEF2E4]/60 mb-1">Pourquoi VERA :</p>
+                  <p class="text-[14px] text-[#111110] dark:text-[#FEF2E4]">{{ response.pourquoiVera }}</p>
+                </div>
+              }
+
               <!-- Contenu de la réponse -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-[14px] font-family-fustat">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-[14px] font-family-fustat mb-4">
                 <div>
                   <span class="text-[#111110]/60 dark:text-[#FEF2E4]/60">Facilité :</span>
-                  <span class="ml-2 text-[#111110] dark:text-[#FEF2E4] font-medium">{{ response.veraEasy }}/5</span>
+                  <span class="ml-2 text-[#111110] dark:text-[#FEF2E4] font-medium">{{ getCleanText(response.veraEasy) }}</span>
                 </div>
                 <div>
                   <span class="text-[#111110]/60 dark:text-[#FEF2E4]/60">Gain de temps :</span>
-                  <span class="ml-2 text-[#111110] dark:text-[#FEF2E4] font-medium">{{ response.winTime }}/5</span>
+                  <span class="ml-2 text-[#111110] dark:text-[#FEF2E4] font-medium">{{ getCleanText(response.winTime) }}</span>
                 </div>
                 <div>
                   <span class="text-[#111110]/60 dark:text-[#FEF2E4]/60">Fiabilité :</span>
-                  <span class="ml-2 text-[#111110] dark:text-[#FEF2E4] font-medium">{{ response.fiability }}/5</span>
+                  <span class="ml-2 text-[#111110] dark:text-[#FEF2E4] font-medium">{{ getCleanText(response.fiability) }}</span>
                 </div>
                 <div>
                   <span class="text-[#111110]/60 dark:text-[#FEF2E4]/60">Recommandation :</span>
-                  <span class="ml-2 text-[#111110] dark:text-[#FEF2E4] font-medium">{{ response.recommandation }}/10</span>
+                  <span class="ml-2 text-[#111110] dark:text-[#FEF2E4] font-medium">{{ getCleanText(response.recommandation) }}</span>
                 </div>
+              </div>
+
+              <!-- Statut du problème -->
+              <div class="mb-4">
+                <span class="text-[#111110]/60 dark:text-[#FEF2E4]/60">Problème rencontré :</span>
+                <span class="ml-2 text-[#111110] dark:text-[#FEF2E4] font-medium">
+                  {{ hasProblem(response) ? 'Oui' : 'Non' }}
+                </span>
               </div>
 
               <!-- Plus apprécié -->
@@ -113,7 +316,7 @@
               }
 
               <!-- Problème rencontré -->
-              @if(response.problem === 'oui' && response.ifProblem) {
+              @if(hasProblem(response) && response.ifProblem) {
                 <div class="mt-4 pt-4 border-t border-[#111110]/10 dark:border-[#FEF2E4]/10">
                   <p class="text-[12px] text-[#111110]/60 dark:text-[#FEF2E4]/60 mb-1">Problème rencontré :</p>
                   <p class="text-[14px] text-[#111110] dark:text-[#FEF2E4]">{{ response.ifProblem }}</p>
