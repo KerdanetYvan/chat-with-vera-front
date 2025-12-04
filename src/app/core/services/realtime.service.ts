@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { ResponseEvent } from '../models/response.model';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class RealtimeService {
     const token = this.authService.getToken();
 
     // Connexion au WebSocket backend avec authentification
-    this.socket = io('http://localhost:3000', {
+    this.socket = io(environment.wsUrl, {
       transports: ['websocket'],
       autoConnect: false,
       auth: {

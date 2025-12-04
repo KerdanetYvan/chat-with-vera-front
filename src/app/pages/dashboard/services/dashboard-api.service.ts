@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-const API_BASE = 'http://localhost:3000/api'; // à passer plus tard dans environment
+const API_BASE = environment.apiUrl;
 
 // Types simples pour commencer, à affiner après coup selon la réponse réelle
 export interface DashboardOverview {
