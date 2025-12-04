@@ -1,31 +1,38 @@
-<div *ngIf="loading">Chargement...</div>
-<div *ngIf="error">{{ error }}</div>
+@if(loading) {
+  <div>Chargement...</div>
+}
+@if(error) {
+  <div>{{ error }}</div>
+}
 
-<div *ngIf="overview as o">
-  <div class="stats-cards">
-    <div class="card">
-      <h3>Utilisateurs</h3>
-      <p>{{ o.stats?.totalUsers ?? 0 }}</p>
+@if(overview) {
+  <div>
+    <div class="stats-cards">
+      <div class="card">
+        <h3>Utilisateurs</h3>
+        <p>{{ overview.stats?.totalUsers ?? 0 }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Sondages</h3>
+        <p>{{ overview.stats?.totalSurveys ?? 0 }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Réponses</h3>
+        <p>{{ overview.stats?.totalResponses ?? 0 }}</p>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>Sondages</h3>
-      <p>{{ o.stats?.totalSurveys ?? 0 }}</p>
-    </div>
-
-    <div class="card">
-      <h3>Réponses</h3>
-      <p>{{ o.stats?.totalResponses ?? 0 }}</p>
-    </div>
+    <h3>Sondages récents</h3>
+    @if(overview.surveys?.recent?.length) {
+      <ul>
+        @for(s of overview.surveys.recent; track s.title) {
+          <li>{{ s.title }} – {{ s.createdAt | date:'shortDate' }}</li>
+        }
+      </ul>
+    } @else {
+      <p>Aucun sondage pour le moment.</p>
+    }
   </div>
-
-  <h3>Sondages récents</h3>
-  <ul *ngIf="o.surveys?.recent?.length; else noSurveys">
-    <li *ngFor="let s of o.surveys.recent">
-      {{ s.title }} – {{ s.createdAt | date:'shortDate' }}
-    </li>
-  </ul>
-  <ng-template #noSurveys>
-    <p>Aucun sondage pour le moment.</p>
-  </ng-template>
-</div>
+}
