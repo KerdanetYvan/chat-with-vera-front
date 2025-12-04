@@ -1,5 +1,5 @@
-import { NgOptimizedImage, CommonModule } from '@angular/common';
-import { Component, inject, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { NgOptimizedImage, CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, inject, ChangeDetectorRef, ViewChild, ElementRef, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -41,6 +41,7 @@ export class Chat {
   private veraApi = inject(VeraApi);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -63,11 +64,13 @@ export class Chat {
 
   // Vérifie si l'utilisateur a déjà accepté l'avertissement
   private hasAcceptedWarning(): boolean {
+    if (!isPlatformBrowser(this.platformId)) return false;
     return localStorage.getItem('fileUploadWarningAccepted') === 'true';
   }
 
   // Enregistre que l'utilisateur a accepté l'avertissement
   private setWarningAccepted(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     localStorage.setItem('fileUploadWarningAccepted', 'true');
   }
 

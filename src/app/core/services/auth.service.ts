@@ -1,5 +1,6 @@
 // src/app/core/services/auth.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 
 export interface JwtPayload {
@@ -17,9 +18,16 @@ export class AuthService {
   private readonly EMAIL_KEY = 'user_email';
   private readonly USERNAME_KEY = 'user_username';
   private readonly ROLE_KEY = 'user_role';
+  private platformId = inject(PLATFORM_ID);
+
+  private isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
 
   // Stocke le JWT après login
   setToken(token: string): void {
+    if (!this.isBrowser()) return;
+
     // le stockage du token rest inchangé on va juste décoder ensuite le token pour extraire les différentes infos
     localStorage.setItem(this.TOKEN_KEY, token);
 
@@ -40,7 +48,7 @@ export class AuthService {
       let username =
         payload.username ||
         (payload.email ? payload.email.split('@')[0] : '');
-      
+
       if(username) {
         localStorage.setItem(this.USERNAME_KEY, username);
       }
@@ -51,10 +59,12 @@ export class AuthService {
 
   // Récupère le JWT (pour interceptor, guards, etc.)
   getToken(): string | null {
+    if (!this.isBrowser()) return null;
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
   clearToken(): void {
+    if (!this.isBrowser()) return;
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.EMAIL_KEY);
     localStorage.removeItem(this.ROLE_KEY);
@@ -68,14 +78,17 @@ export class AuthService {
   // ------------ Getters pratiques --------------
 
   getUserRole(): string | null {
+    if (!this.isBrowser()) return null;
     return localStorage.getItem(this.ROLE_KEY);
   }
 
   getUserEmail(): string | null {
+    if (!this.isBrowser()) return null;
     return localStorage.getItem(this.EMAIL_KEY);
   }
 
   getUsername(): string | null {
+    if (!this.isBrowser()) return null;
     return localStorage.getItem(this.USERNAME_KEY);
   }
 

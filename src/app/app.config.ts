@@ -9,7 +9,7 @@ import { routes } from './app.routes';
 
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withFetch } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthTokenInterceptor } from './auth-token.interceptor';
 
@@ -22,8 +22,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
 
-    // 🔹 HttpClient + support des interceptors DI
-    provideHttpClient(withInterceptorsFromDi()),
+    // 🔹 HttpClient + support des interceptors DI + fetch API pour SSR
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
 
     // 🔹 Interceptor JWT
     {
