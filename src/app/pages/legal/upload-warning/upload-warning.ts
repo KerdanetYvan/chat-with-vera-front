@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,10 +10,13 @@ import { Router } from '@angular/router';
 })
 export class UploadWarning {
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
   // Enregistre l'acceptation et navigue vers le chat
   acceptAndNavigate(): void {
-    localStorage.setItem('fileUploadWarningAccepted', 'true');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('fileUploadWarningAccepted', 'true');
+    }
     this.router.navigate(['/chat']);
   }
 }

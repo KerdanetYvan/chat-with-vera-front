@@ -1,6 +1,7 @@
 // src/app/core/auth-guard.ts
 import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from './services/auth.service';
 
 /**
@@ -12,6 +13,12 @@ import { AuthService } from './services/auth.service';
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const auth = inject(AuthService);
+  const platformId = inject(PLATFORM_ID);
+
+  // Pendant le SSR, on autorise l'accès (la vérification se fera côté client)
+  if (!isPlatformBrowser(platformId)) {
+    return true;
+  }
 
   // Pas de token -> login
   if (!auth.isLoggedIn()) {
